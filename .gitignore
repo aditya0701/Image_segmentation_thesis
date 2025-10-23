@@ -1,3 +1,15 @@
+# CONDA INSTALLATION (500MB+ - NEVER UPLOAD!)
+installations/
+conda/
+*/conda/
+*/installations/conda*
+
+# Conda Envs
+envs/
+environment.yml
+
+# Scratch Space
+/work/scratch/
 # Python
 __pycache__/
 *.pyc
@@ -25,3 +37,5 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+rawat.code-workspace
+*.code-workspace
