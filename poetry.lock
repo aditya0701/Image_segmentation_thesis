@@ -684,6 +684,24 @@ docs = ["ipython", "matplotlib", "numpydoc", "sphinx"]
 tests = ["pytest", "pytest-cov", "pytest-xdist"]
 
 [[package]]
+name = "czifile"
+version = "2019.7.2.1"
+description = "Read Carl Zeiss Image (CZI) files"
+optional = false
+python-versions = ">=2.7"
+groups = ["main"]
+files = [
+    {file = "czifile-2019.7.2.1-py2-none-any.whl", hash = "sha256:f75a3787896befcb0fd415c8cb9acea1f64007b05e264a6581c99b767758198c"},
+    {file = "czifile-2019.7.2.1-py3-none-any.whl", hash = "sha256:41906b5bcce27d089c1c54f366f4f52e93b262d7d8d157622418f096a23b89a1"},
+    {file = "czifile-2019.7.2.1.tar.gz", hash = "sha256:6169aa681dd8af0d25e8e731e83393140cb960097d2a641dd145e8349bd2e965"},
+]
+
+[package.dependencies]
+imagecodecs = {version = ">=2019.5.22", markers = "platform_system == \"Windows\""}
+numpy = ">=1.11.3"
+tifffile = ">=2019.7.2"
+
+[[package]]
 name = "debugpy"
 version = "1.8.17"
 description = "An implementation of the Debug Adapter Protocol for Python"
@@ -3291,6 +3309,18 @@ files = [
 ]
 
 [[package]]
+name = "pyvirtualdisplay"
+version = "3.0"
+description = "python wrapper for Xvfb, Xephyr and Xvnc"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "PyVirtualDisplay-3.0-py3-none-any.whl", hash = "sha256:40d4b8dfe4b8de8552e28eb367647f311f88a130bf837fe910e7f180d5477f0e"},
+    {file = "PyVirtualDisplay-3.0.tar.gz", hash = "sha256:09755bc3ceb6eb725fb07eca5425f43f2358d3bf08e00d2a9b792a1aedd16159"},
+]
+
+[[package]]
 name = "pywinpty"
 version = "3.0.2"
 description = "Pseudo terminal support for Windows from Python."
@@ -4637,4 +4667,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.14"
-content-hash = "d0a315ccb052e57a8837f7d80f0a90210d06a9fec6e04820493d54c285a69b67"
+content-hash = "7ad49a1d353f67f8bbd1b98e095664cfbda50ff262eb0de4ebcc6261489b7637"
