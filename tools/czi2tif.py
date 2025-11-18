@@ -48,6 +48,7 @@ def convert_czi_to_ome_tiff(input_path: Path, output_path: Path, overwrite: bool
         return False
 
 def main():
+    print("\nCZI to OME-TIFF Converter (preserves dimensions)\n")
     parser = argparse.ArgumentParser(description="Convert CZI to OME-TIFF (preserves dimensions)")
     parser.add_argument("input", help="Input folder with .czi files")
     parser.add_argument("-o", "--output", help="Output folder (default: same as input)")
@@ -62,6 +63,8 @@ def main():
         sys.exit(1)
 
     czi_files = list(in_dir.glob("*.czi")) + list(in_dir.glob("*.CZI"))
+
+    print(f"Found {len(czi_files)} .czi files in {in_dir}")
     if not czi_files:
         print("No .czi files found")
         sys.exit(0)
