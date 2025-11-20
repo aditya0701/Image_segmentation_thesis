@@ -59,8 +59,8 @@ def convert_tif_to_h5(input_folder, output_folder):
             
 # --- CONFIGURATION ---
 # IMPORTANT: Change these two paths to your specific folder locations.
-INPUT_FOLDER = r'C:\Users\YourName\Desktop\InputTIFs'
-OUTPUT_FOLDER = r'C:\Users\YourName\Desktop\OutputH5s'
+INPUT_FOLDER = r'C:\Users\adima\OneDrive\Desktop\images\tif_files\tif\All_images_tif'
+OUTPUT_FOLDER = r'C:\Users\adima\OneDrive\Desktop\images\tif_files\tif\tif_h5_output'
 
 # --- RUN THE FUNCTION ---
 if __name__ == "__main__":
