@@ -6,7 +6,6 @@ conda/
 
 # Conda Envs
 envs/
-environment.yml
 
 # Scratch Space
 /work/scratch/

@@ -1,0 +1,33 @@
+name: bio-seg
+channels:
+  - conda-forge
+  - napari
+  - ilastik
+dependencies:
+  - python=3.10
+  - mamba
+  - numpy
+  - scipy
+  - scikit-image
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - seaborn
+  - napari
+  - napari[all]
+  - vigra
+  - pyqt
+  - qtpy
+  - tifffile
+  - dask
+  - zarr
+  - h5py
+  - pip
+  - pip:
+      - cellpose
+      - tensorflow
+      - napari-segment-blobs-and-things-with-membranes
+      - stardist-napari
+      - napari-annotation-tools
+      - napari-annotatorj
+      - napari-allencell-segmenter
