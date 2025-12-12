@@ -38,3 +38,6 @@ logs/
 Thumbs.db
 rawat.code-workspace
 *.code-workspace
+
+weights/
+*.pth
