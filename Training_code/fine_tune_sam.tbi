@@ -60,7 +60,7 @@ nice_user = True
 #
 # Aware: Use this statement carefully. Better let the central manager decide on which node your jobs will run. Otherwise you'll risk a long waiting time or block resources for other users.
 #
-requirements = TARGET.Machine=="schroedinger.lfb.rwth-aachen.de"
+# requirements = TARGET.Machine=="schroedinger.lfb.rwth-aachen.de"
 #
 # required GPU RAM (MB)
 
@@ -83,7 +83,7 @@ requirements = (HALF_PREC == 1)
 # Attention: You can only set one requirement line. Add more requirements by using && e.g.
 #
 # requirements = (CUDAGlobalMemoryMb > 4000) && (CUDAGlobalMemoryMb < 20000) && POOL =="workstation"
-# requirements = (CUDAGlobalMemoryMb > 4000) && (CUDAGlobalMemoryMb < 20000) && TARGET.Machine=="abacus.lfb.rwth-aachen.de"
+# requirements = (CUDAGlobalMemoryMb > 48000) && (CUDAGlobalMemoryMb < 50000) && TARGET.Machine=="schroedinger.lfb.rwth-aachen.de"
 # Hint: Use (CUDAGlobalMemoryMb > 5800) to match all GTX 1660 Super and GTX 1060
 # Example: (Use Workstation Pool, videocards with more then 5.8 GB but less then 16 GB VRAM and exclude all RTX 3090)
 #requirements = 
@@ -95,11 +95,11 @@ request_cpus = 8
 request_gpus = 1
 
 # required CPU RAM
-request_memory = 64 GB
+request_memory = 32 GB
 
 # required Disk space
 
-request_disk = 100 GB
+request_disk = 50 GB
 
 # criterion after which to choose the machine
 # e.g. `rank = memory` takes machine with largest RAM

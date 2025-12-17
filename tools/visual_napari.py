@@ -3,14 +3,15 @@ import numpy as np
 import napari
 
 # --- PATHS ---
-IMAGE_PATH = r'/home/students/rawat/czi_output/PN_KC_Calyx_CS-_GFP_mCherry568_anti-synapsin633_brain1.ome.tif'
+IMAGE_PATH = r"/home/students/rawat/czi_output/PN-KC_488_568_633_30minfixation_Calyx2.ome.tif"
 # Use the path where you saved your auto-generated results
-MASK_PATH = r'/home/students/rawat/czi_output/Annotations/PN_KC_Calyx_CS-_GFP_mCherry568_anti-synapsin633_brain1/Brain1_Auto3D.tif'
+MASK_PATH = r'/work/scratch/rawat/ouput_masks/prediction_result.tif'
+MASK_FIX_PATH = r"/work/scratch/rawat/ouput_masks/tracked_masks_fixed.tif"
 
 print("Loading images...")
 img = tifffile.imread(IMAGE_PATH)
 mask = tifffile.imread(MASK_PATH)
-
+mask_fix = tifffile.imread(MASK_FIX_PATH)
 print(f"Image shape: {img.shape}")
 print(f"Mask shape: {mask.shape}")
 
@@ -37,5 +38,11 @@ viewer.add_image(
 #     scale=(1, 1, 1)
 # )
 
+# viewer.add_labels(
+#     mask_fix,
+#     name='Corrected Bouton Annotations',
+#     opacity=0.6,
+#     scale=(1, 1, 1)
+# )   
 print("Napari launched. Use the slider at the bottom to scroll through Z-slices.")
 napari.run()

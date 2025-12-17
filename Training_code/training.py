@@ -1,8 +1,8 @@
 import sys
 import os
+import torch
 import numpy as np
 import tifffile
-import torch
 from skimage import exposure
 from sklearn.model_selection import train_test_split
 from micro_sam.training import default_sam_loader, train_sam
@@ -15,6 +15,7 @@ if len(sys.argv) > 1:
 else:
     BATCH_SIZE = 1
 
+BATCH_SIZE = 1
 print(f"🚀 Running with BATCH_SIZE: {BATCH_SIZE}")
 
 # PATHS (Ensure these exist on the cluster!)
@@ -25,7 +26,7 @@ LABEL_PATH = f"/home/students/rawat/czi_output/Annotations/PN_KC_Calyx_CS-_GFP_m
 CHECKPOINT_PATH = f"/work/scratch/rawat/image-segmentation-thesis/weight/sam_vit_h_4b8939.pth"
 SAVE_ROOT = f"/work/scratch/rawat/microsam_training_output"
 
-MODEL_TYPE = "vit_h"
+MODEL_TYPE = "vit_b_lm"
 PATCH_SHAPE = (1431, 1431)
 N_EPOCHS = 50
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -38,6 +39,35 @@ raw_data = tifffile.imread(DATA_PATH)
 manual_labels = tifffile.imread(LABEL_PATH)
 
 # Handle Dimensions (assuming Z, Y, X, C order)
+
+## Verify axis order from OME metadata
+with tifffile.TiffFile(DATA_PATH) as tif:
+    # Attempt to read OME-XML metadata which holds the axis order
+    if tif.ome_metadata:
+        try:
+            # tif.series[0].axes provides the axis order, e.g., 'CZYX'
+            raw_axis_order = tif.series[0].axes
+            print(f"✅ Metadata Axis Order: {raw_axis_order}")
+            
+            # Now we know how to transpose definitively!
+            # Example: if raw_axis_order is 'CZYX', transpose to (1, 2, 3, 0)
+            
+        except Exception:
+            print("ℹ️ OME metadata found, but axis order could not be read easily.")
+    else:
+        print("❌ OME metadata not found. The axis order cannot be determined automatically.")
+
+if raw_data.ndim == 4:
+    if raw_data.shape[0] <= 4:  # (C, Z, Y, X)
+        raw_data = np.transpose(raw_data, (1, 2, 3, 0))
+        print("✅ Converted from (C, Z, Y, X) → (Z, Y, X, C)")
+
+    elif raw_data.shape[1] <= 4:  # (Z, C, Y, X)
+        raw_data = np.transpose(raw_data, (0, 2, 3, 1))
+        print("✅ Converted from (Z, C, Y, X) → (Z, Y, X, C)")
+
+else:
+    raise ValueError("❌ Your image is not a 4D stack. Expected Z,Y,X,C.")
 # Taking Channel 0 (GFP/Boutons)
 bouton_data = raw_data[..., 0] 
 
@@ -84,13 +114,14 @@ def save_slices_to_disk(images, labels, root_dir, subset_name):
         lbl_paths.append(lbl_p)
     return img_paths, lbl_paths
 
-print("Saving temporary training files...")
+print("Saving temporary training files on :" , SAVE_ROOT)
 train_raw, train_lbl = save_slices_to_disk(x_train, y_train, SAVE_ROOT, "train")
 val_raw, val_lbl = save_slices_to_disk(x_val, y_val, SAVE_ROOT, "val")
 
 # --- 4. TRAIN ---
-train_loader = default_sam_loader(raw_paths=train_raw, label_paths=train_lbl, patch_shape=PATCH_SHAPE, batch_size=BATCH_SIZE, with_segmentation_decoder=True, shuffle=True)
-val_loader = default_sam_loader(raw_paths=val_raw, label_paths=val_lbl, patch_shape=PATCH_SHAPE, batch_size=BATCH_SIZE, with_segmentation_decoder=True, shuffle=False)
+raw_key, label_key = "*.tif", "*.tif"
+train_loader = default_sam_loader(raw_paths=train_raw, raw_key=None, label_paths=train_lbl, label_key=None, patch_shape=PATCH_SHAPE, batch_size=BATCH_SIZE, with_segmentation_decoder=True, shuffle=True)
+val_loader = default_sam_loader(raw_paths=val_raw, raw_key=None, label_paths=val_lbl, label_key=None, patch_shape=PATCH_SHAPE, batch_size=BATCH_SIZE, with_segmentation_decoder=True, shuffle=False)
 
 print("Starting Training...")
 train_sam(
@@ -100,7 +131,6 @@ train_sam(
     val_loader=val_loader,
     n_epochs=N_EPOCHS,
     save_root=SAVE_ROOT,
-    checkpoint_path=CHECKPOINT_PATH,
     device=DEVICE,
 )
 print("Training Complete.")
