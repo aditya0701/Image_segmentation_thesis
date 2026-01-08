@@ -3,10 +3,10 @@ import numpy as np
 import napari
 
 # --- PATHS ---
-IMAGE_PATH = r"D:\Thesis_images\All_images_tif\Brain2_PN_KC_Group3_25minfix_OvernightSecAB_488_561_Calyx1_Confocal.tif"
+IMAGE_PATH = r"/home/students/rawat/czi_output/PN_KC_Calyx_CS+_GFP_mCherry568_anti-synapsin633.ome.tif"
 # Use the path where you saved your auto-generated results
 # MASK_PATH = r'/work/scratch/rawat/ouput_masks/prediction_result.tif'
-MASK_FIX_PATH = r"D:\Thesis_images\All_images_tif\annotations\Brain2_PN_KC_Group3_trackedS.tif"
+MASK_FIX_PATH = r"/home/students/rawat/czi_output/Annotations/annotations/Corrected Bouton Annotations.tif"
 
 print("Loading images...")
 img = tifffile.imread(IMAGE_PATH)

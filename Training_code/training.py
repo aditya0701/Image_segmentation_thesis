@@ -16,81 +16,22 @@ else:
     BATCH_SIZE = 1
 
 BATCH_SIZE = 1
-print(f"🚀 Running with BATCH_SIZE: {BATCH_SIZE}")
+print(f"Running with BATCH_SIZE: {BATCH_SIZE}")
 
 # PATHS (Ensure these exist on the cluster!)
-# It is faster to read/write from /work/scratch/ than /home/students/
-rawat = "rawat" # Change if different
-DATA_PATH = f"/home/students/rawat/czi_output/PN_KC_Calyx_CS-_GFP_mCherry568_anti-synapsin633_brain1.ome.tif"
-LABEL_PATH = f"/home/students/rawat/czi_output/Annotations/PN_KC_Calyx_CS-_GFP_mCherry568_anti-synapsin633_brain1/Butons_Labels.tif"
+DATA_PATH = r"/home/students/rawat/training_data/data/train/images/"
+LABEL_PATH = r"/home/students/rawat/training_data/data/train/labels/"
 CHECKPOINT_PATH = f"/work/scratch/rawat/image-segmentation-thesis/weight/sam_vit_h_4b8939.pth"
 SAVE_ROOT = f"/work/scratch/rawat/microsam_training_output"
 
 MODEL_TYPE = "vit_b_lm"
-PATCH_SHAPE = (1431, 1431)
+PATCH_SHAPE = (1024, 1024)
 N_EPOCHS = 50
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 print(f"Output will be saved to: {SAVE_ROOT}")
 
-# --- 2. LOAD & PREPROCESS DATA ---
-print("Loading data...")
-raw_data = tifffile.imread(DATA_PATH)
-manual_labels = tifffile.imread(LABEL_PATH)
-
-# Handle Dimensions (assuming Z, Y, X, C order)
-
-## Verify axis order from OME metadata
-with tifffile.TiffFile(DATA_PATH) as tif:
-    # Attempt to read OME-XML metadata which holds the axis order
-    if tif.ome_metadata:
-        try:
-            # tif.series[0].axes provides the axis order, e.g., 'CZYX'
-            raw_axis_order = tif.series[0].axes
-            print(f"✅ Metadata Axis Order: {raw_axis_order}")
-            
-            # Now we know how to transpose definitively!
-            # Example: if raw_axis_order is 'CZYX', transpose to (1, 2, 3, 0)
-            
-        except Exception:
-            print("ℹ️ OME metadata found, but axis order could not be read easily.")
-    else:
-        print("❌ OME metadata not found. The axis order cannot be determined automatically.")
-
-if raw_data.ndim == 4:
-    if raw_data.shape[0] <= 4:  # (C, Z, Y, X)
-        raw_data = np.transpose(raw_data, (1, 2, 3, 0))
-        print("✅ Converted from (C, Z, Y, X) → (Z, Y, X, C)")
-
-    elif raw_data.shape[1] <= 4:  # (Z, C, Y, X)
-        raw_data = np.transpose(raw_data, (0, 2, 3, 1))
-        print("✅ Converted from (Z, C, Y, X) → (Z, Y, X, C)")
-
-else:
-    raise ValueError("❌ Your image is not a 4D stack. Expected Z,Y,X,C.")
-# Taking Channel 0 (GFP/Boutons)
-bouton_data = raw_data[..., 0] 
-
-# Contrast Enhancement
-print("Enhancing contrast...")
-p2, p99 = np.percentile(bouton_data, (2, 99))
-bouton_data_norm = exposure.rescale_intensity(
-    bouton_data, in_range=(p2, p99), out_range=(0, 255)
-).astype(np.uint8)
-
-# Stack to 3 channels (Required for SAM)
-raw_data_rgb = np.stack((bouton_data_norm,)*3, axis=-1)
-
-# Filter Empty Slices
-x_slices = []
-y_slices = []
-print("Filtering empty slices...")
-for z in range(raw_data_rgb.shape[0]):
-    if np.max(manual_labels[z]) > 0: # Only use slices with annotations
-        x_slices.append(raw_data_rgb[z])
-        y_slices.append(manual_labels[z])
-
-print(f"✅ Found {len(x_slices)} annotated slices.")
+## Data has already been sliced and saved to disk using images_2_slices.py
 
 # Train/Val Split
 x_train, x_val, y_train, y_val = train_test_split(x_slices, y_slices, test_size=0.1, random_state=42)
