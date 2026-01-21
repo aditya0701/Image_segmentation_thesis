@@ -3,7 +3,7 @@ import numpy as np
 import napari
 
 # --- PATHS ---
-IMAGE_PATH = r"D:\Thesis_images\All_images_tif\New_images\PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit.ome.tif"
+IMAGE_PATH = r"/home/students/rawat/czi_output/PN_KC_Calyx_CS+_GFP_mCherry568_anti-synapsin633.ome.tif"
 # Use the path where you saved your auto-generated results
 MASK_PATH = r"D:\Thesis_images\All_images_tif\annotations\proceesed_images_label\PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_label_vit_l_lm_patch1024\PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_label_vit_l_lm_patch1024_synced.tif"
 MASK_FIX_PATH = r"D:\Thesis_images\All_images_tif\annotations\proceesed_images_label\PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_label_vit_l_lm_patch1024\PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_label_vit_l_lm_patch1024_synced_cleaned_auto.tif"
