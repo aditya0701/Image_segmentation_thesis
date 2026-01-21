@@ -68,6 +68,27 @@ def relabel_sequential(label_slice):
     return relabeled
 
 # --- 4. PROCESSING LOOP ---
+# --- 3. LABEL SEQUENCING HELPER ---
+def relabel_sequential(label_slice):
+    """
+    Relabel annotations sequentially from 1 to n.
+    Preserves background (0) and remaps all other unique labels to 1, 2, 3, ..., n
+    """
+    unique_labels = np.unique(label_slice)
+    # Remove background (0) if present
+    unique_labels = unique_labels[unique_labels > 0]
+    
+    if len(unique_labels) == 0:
+        return label_slice  # All background, no relabeling needed
+    
+    # Create a mapping from old labels to new sequential labels
+    relabeled = np.zeros_like(label_slice)
+    for new_label, old_label in enumerate(unique_labels, start=1):
+        relabeled[label_slice == old_label] = new_label
+    
+    return relabeled
+
+# --- 4. PROCESSING LOOP ---
 pairs = get_matched_pairs(IMAGE_DIR, LABEL_DIR)
 print(f"Found {len(pairs)} matched image-label pairs. Starting processing...")
 
@@ -114,9 +135,22 @@ for img_path, lbl_path, base_name in tqdm(pairs, desc="Processing files"):
         raw_data = (raw_data.astype(np.float32) - low) / (high - low)
         raw_data = np.clip(raw_data, 0, 1)
     else:
+        print(f"Skipping {base_name}: Unexpected dimensions {raw_data.shape}")
+        continue
+    # ---------------------------------------------------------
+
+    low, high = np.percentile(raw_data, (0.00001, 99.9999))
+    print(f"Percentile values: low={low}, high={high}")
+
+    if high > low:
+        # Normalize to 0-1 as float32
+        raw_data = (raw_data.astype(np.float32) - low) / (high - low)
+        raw_data = np.clip(raw_data, 0, 1)
+    else:
         # Flat image fallback
         raw_data = np.zeros_like(raw_data, dtype=np.float32)
-
+        
+    # C. RGB CONVERSION (Your Snippet)
     Z, Y, X, C = raw_data.shape
     raw_data_rgb = np.zeros((Z, Y, X, 3), dtype=raw_data.dtype)
 
