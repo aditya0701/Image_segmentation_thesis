@@ -26,7 +26,7 @@ for file_path in files:
         if img.dtype != np.uint8:
             
             # --- YOUR NORMALIZATION LOGIC ---
-            low, high = np.percentile(img, (1, 99))
+            low, high = np.percentile(img, (0.01, 99.99))
             
             if high > low:
                 # Normalize to 0-1 based on percentiles

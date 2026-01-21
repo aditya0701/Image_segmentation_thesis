@@ -83,7 +83,7 @@ requirements = (HALF_PREC == 1)
 # Attention: You can only set one requirement line. Add more requirements by using && e.g.
 #
 # requirements = (CUDAGlobalMemoryMb > 4000) && (CUDAGlobalMemoryMb < 20000) && POOL =="workstation"
-requirements = (GPUs_GlobalMemoryMb >= 40000) && (TARGET.Machine != "feynman.lfb.rwth-aachen.de") &&(TARGET.Machine != "tesla.lfb.rwth-aachen.de") &&(TARGET.Machine != "pc171.lfb.rwth-aachen.de") &&(TARGET.Machine != "meitner.lfb.rwth-aachen.de")
+requirements = (GPUs_GlobalMemoryMb >= 40000) 
 # Hint: Use (CUDAGlobalMemoryMb > 5800) to match all GTX 1660 Super and GTX 1060
 # Example: (Use Workstation Pool, videocards with more then 5.8 GB but less then 16 GB VRAM and exclude all RTX 3090)
 #requirements = 

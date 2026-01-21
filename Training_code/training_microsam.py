@@ -3,6 +3,7 @@ import sys
 import glob
 import numpy as np
 import torch
+import torch_em
 from sklearn.model_selection import GroupShuffleSplit
 from micro_sam.training import default_sam_loader, train_sam
 
@@ -14,12 +15,12 @@ else:
 
 print(f"Running with BATCH_SIZE: {BATCH_SIZE}")
 
-PATCH_SHAPE = (1024, 1024)
+PATCH_SHAPE = (512,512)
 N_EPOCHS = 50
 DATA_PATH = r"/home/students/rawat/training_data"
 SAVE_ROOT = f"/work/scratch/rawat/microsam_training_output"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_TYPE = "vit_b_lm"
+MODEL_TYPE = "vit_l_lm"
 
 ALL_IMG_DIR = os.path.join(DATA_PATH, "data", "train", "images")
 ALL_LBL_DIR = os.path.join(DATA_PATH, "data", "train", "labels")
@@ -46,7 +47,7 @@ print(f"Groups found: {unique_brains}")
 print(f"Found {len(unique_brains)} unique 3D volumes: {unique_brains}")
 
 splitter = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
-
+sampler = torch_em.data.sampler.MinForegroundSampler(min_fraction=0.001)
 # Perform the split
 # keys are indices of the file list
 train_idx, val_idx = next(splitter.split(all_raw_paths, groups=groups))
@@ -70,7 +71,8 @@ train_loader = default_sam_loader(
     patch_shape=PATCH_SHAPE,
     batch_size=BATCH_SIZE,
     with_segmentation_decoder=True,
-    shuffle=True
+    shuffle=True,
+    sampler=sampler
 )
 
 val_loader = default_sam_loader(
@@ -81,13 +83,15 @@ val_loader = default_sam_loader(
     patch_shape=PATCH_SHAPE,
     batch_size=BATCH_SIZE,
     with_segmentation_decoder=True,
-    shuffle=False
+    shuffle=False,
+    sampler=sampler
 )
 
 # --- 4. START TRAINING ---
 train_sam(
-    name="with_multiple_brains",
+    name="vit_l_lm_patch512_0.001percentile",
     model_type=MODEL_TYPE,
+    early_stopping = 40,
     train_loader=train_loader,
     val_loader=val_loader,
     n_epochs=N_EPOCHS,
