@@ -15,12 +15,12 @@ else:
 
 print(f"Running with BATCH_SIZE: {BATCH_SIZE}")
 
-PATCH_SHAPE = (512,512)
+PATCH_SHAPE = (1024,1024)
 N_EPOCHS = 50
 DATA_PATH = r"/home/students/rawat/training_data"
-SAVE_ROOT = f"/work/scratch/rawat/microsam_training_output"
+SAVE_ROOT = f"/work/scratch/rawat/models/microsam_training_output"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_TYPE = "vit_l_lm"
+MODEL_TYPE = "vit_b_lm"
 
 ALL_IMG_DIR = os.path.join(DATA_PATH, "data", "train", "images")
 ALL_LBL_DIR = os.path.join(DATA_PATH, "data", "train", "labels")
@@ -89,7 +89,7 @@ val_loader = default_sam_loader(
 
 # --- 4. START TRAINING ---
 train_sam(
-    name="vit_l_lm_patch512_0.001percentile",
+    name="vit_b_lm_patch1024_loss_ce",
     model_type=MODEL_TYPE,
     early_stopping = 40,
     train_loader=train_loader,
