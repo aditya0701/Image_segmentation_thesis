@@ -27,4 +27,4 @@ echo "Selected Batch Size: $BATCH"
 
 # 3. Run Python with the selected batch size
 # -u means unbuffered, so you see prints immediately
-python  /work/scratch/rawat/image-segmentation-thesis/Training_code/training_wnet3d.py
+python  /work/scratch/rawat/image-segmentation-thesis/Training_code/training_cellpose3d.py

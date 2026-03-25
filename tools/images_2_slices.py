@@ -4,14 +4,15 @@ import glob
 import numpy as np
 import tifffile
 from tqdm import tqdm  # Progress bar
+from scipy import ndimage
 
 # --- 1. CONFIGURATION ---
 # Input Directories
-IMAGE_DIR = r"/home/students/rawat/czi_output"
-LABEL_DIR = r"/home/students/rawat/czi_output/Annotations"
+IMAGE_DIR = r"/home/students/rawat/czi_output/processed_images/"
+LABEL_DIR = r"/home/students/rawat/Dataset/"
 
 # Output Directory (Where slices will be saved)
-SAVE_ROOT = r"/home/students/rawat/training_data"
+SAVE_ROOT = r"/home/students/rawat/training_data_new"
 IMG_OUTPUT_DIR = os.path.join(SAVE_ROOT, "data", "train", "images")
 LBL_OUTPUT_DIR = os.path.join(SAVE_ROOT, "data", "train", "labels")
 
@@ -47,46 +48,28 @@ def get_matched_pairs(image_dir, label_dir):
             
     return pairs
 
-# --- 3. LABEL SEQUENCING HELPER ---
-def relabel_sequential(label_slice):
+# --- 3. CONNECTED COMPONENT LABELING HELPER ---
+def apply_connected_component_labeling(label_slice):
     """
-    Relabel annotations sequentially from 1 to n.
-    Preserves background (0) and remaps all other unique labels to 1, 2, 3, ..., n
+    Separate touching/overlapping objects into individual labeled regions.
+    Each connected component gets a unique sequential label (1, 2, 3, ...).
+    Background (0) is preserved.
+    
+    Uses 8-connectivity (includes diagonal neighbors).
+    
+    Args:
+        label_slice: 2D array with label values (0 = background, non-zero = objects)
+        
+    Returns:
+        label_slice: 2D array with each connected object having unique label
     """
-    unique_labels = np.unique(label_slice)
-    # Remove background (0) if present
-    unique_labels = unique_labels[unique_labels > 0]
+    # Create binary mask (0 = background, 1 = any object)
+    binary_mask = label_slice > 0
     
-    if len(unique_labels) == 0:
-        return label_slice  # All background, no relabeling needed
+    # Find all connected components and assign unique labels
+    labeled_array, num_features = ndimage.label(binary_mask)
     
-    # Create a mapping from old labels to new sequential labels
-    relabeled = np.zeros_like(label_slice)
-    for new_label, old_label in enumerate(unique_labels, start=1):
-        relabeled[label_slice == old_label] = new_label
-    
-    return relabeled
-
-# --- 4. PROCESSING LOOP ---
-# --- 3. LABEL SEQUENCING HELPER ---
-def relabel_sequential(label_slice):
-    """
-    Relabel annotations sequentially from 1 to n.
-    Preserves background (0) and remaps all other unique labels to 1, 2, 3, ..., n
-    """
-    unique_labels = np.unique(label_slice)
-    # Remove background (0) if present
-    unique_labels = unique_labels[unique_labels > 0]
-    
-    if len(unique_labels) == 0:
-        return label_slice  # All background, no relabeling needed
-    
-    # Create a mapping from old labels to new sequential labels
-    relabeled = np.zeros_like(label_slice)
-    for new_label, old_label in enumerate(unique_labels, start=1):
-        relabeled[label_slice == old_label] = new_label
-    
-    return relabeled
+    return labeled_array
 
 # --- 4. PROCESSING LOOP ---
 pairs = get_matched_pairs(IMAGE_DIR, LABEL_DIR)
@@ -129,19 +112,6 @@ for img_path, lbl_path, base_name in tqdm(pairs, desc="Processing files"):
     # Calculate percentiles on the entire 3D volume at once
     low, high = np.percentile(raw_data, (0.00001, 99.9999))
     print(f"Percentile values: low={low}, high={high}")
-
-    if high > low:
-        # Normalize to 0-1 as float32
-        raw_data = (raw_data.astype(np.float32) - low) / (high - low)
-        raw_data = np.clip(raw_data, 0, 1)
-    else:
-        print(f"Skipping {base_name}: Unexpected dimensions {raw_data.shape}")
-        continue
-    # ---------------------------------------------------------
-
-    low, high = np.percentile(raw_data, (0.00001, 99.9999))
-    print(f"Percentile values: low={low}, high={high}")
-
     if high > low:
         # Normalize to 0-1 as float32
         raw_data = (raw_data.astype(np.float32) - low) / (high - low)
@@ -175,9 +145,9 @@ for img_path, lbl_path, base_name in tqdm(pairs, desc="Processing files"):
             # Save Image (The RGB version)
             tifffile.imwrite(img_save_path, raw_data_rgb[z])
             
-            # Relabel annotations sequentially and save
-            relabeled_slice = relabel_sequential(manual_labels[z])
-            tifffile.imwrite(lbl_save_path, relabeled_slice)
+            # Apply connected component labeling to ensure unique labels
+            labeled_slice = apply_connected_component_labeling(manual_labels[z])
+            tifffile.imwrite(lbl_save_path, labeled_slice)
             
             saved_count_local += 1
 
