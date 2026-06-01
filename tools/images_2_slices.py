@@ -1,160 +1,191 @@
 import sys
 import os
 import glob
+import argparse
 import numpy as np
 import tifffile
-from tqdm import tqdm  # Progress bar
+from tqdm import tqdm
 from scipy import ndimage
 
 # --- 1. CONFIGURATION ---
-# Input Directories
-IMAGE_DIR = r"/home/students/rawat/czi_output/processed_images/"
-LABEL_DIR = r"/home/students/rawat/Dataset/"
+_parser = argparse.ArgumentParser()
+_parser.add_argument("--dataset", type=str, default="all",
+                     choices=["all", "dog", "original", "psf"])
+_args = _parser.parse_args()
 
-# Output Directory (Where slices will be saved)
-SAVE_ROOT = r"/home/students/rawat/training_data_new"
-IMG_OUTPUT_DIR = os.path.join(SAVE_ROOT, "data", "train", "images")
-LBL_OUTPUT_DIR = os.path.join(SAVE_ROOT, "data", "train", "labels")
+DATASET_CONFIG = {
+    "all":      ("/home/students/rawat/Final_dataset/all",      "/home/students/rawat/training_data/training_data_All"),
+    "dog":      ("/home/students/rawat/Final_dataset/DOG",      "/home/students/rawat/training_data/training_data_DOG"),
+    "original": ("/home/students/rawat/Final_dataset/Original", "/home/students/rawat/training_data/training_data_Original"),
+    "psf":      ("/home/students/rawat/Final_dataset/PSF",      "/home/students/rawat/training_data/training_data_PSF"),
+}
 
-# Ensure output directories exist
-os.makedirs(IMG_OUTPUT_DIR, exist_ok=True)
-os.makedirs(LBL_OUTPUT_DIR, exist_ok=True)
+INPUT_ROOT, SAVE_ROOT = DATASET_CONFIG[_args.dataset]
+print(f"Dataset : {_args.dataset}")
+print(f"Input   : {INPUT_ROOT}")
+print(f"Output  : {SAVE_ROOT}")
 
-print(f"Output will be saved to: {SAVE_ROOT}")
+# Define which sets to process
+PROCESS_SETS = ["train", "validation"]
 
-# --- 2. FILE MATCHING HELPER ---
-def get_matched_pairs(image_dir, label_dir):
-    image_paths = sorted(glob.glob(os.path.join(image_dir, "*.tif")))
+def find_image_mask_pairs(base_dir, set_name):
+    """
+    Finds all matching image variations for each unique mask using a "starts with" strategy.
+    Both train and validation use images/ and masks/ subdirectories.
+    """
     pairs = []
-    
-    for img_path in image_paths:
-        filename = os.path.basename(img_path)
+
+    # Both sets use the same images/ masks/ structure
+    if set_name in ("train", "validation"):
+        image_dir = os.path.join(base_dir, set_name, "images")
+        mask_dir  = os.path.join(base_dir, set_name, "masks")
+        image_files = glob.glob(os.path.join(image_dir, "*.tif")) + glob.glob(os.path.join(image_dir, "*.ome.tif"))
+        mask_files  = glob.glob(os.path.join(mask_dir,  "*.tif")) + glob.glob(os.path.join(mask_dir,  "*.ome.tif"))
+    else:
+        return []
+
+    # --- DEBUGGING ---
+    print(f"-> Debug: Found {len(image_files)} image files and {len(mask_files)} mask files in '{set_name}'.")
+    if not mask_files:
+        print(f"-> Debug: No masks found in expected directory for '{set_name}'. Check path and file extensions.")
+    # --- END DEBUGGING ---
+
+    # 2. Iterate through each mask and use it as the 'source of truth'
+    for mask_path in mask_files:
+        mask_filename = os.path.basename(mask_path)
         
-        # Determine Base Name (Handle .ome.tif and .tif)
-        if filename.endswith(".ome.tif"):
-            base_name = filename.replace(".ome.tif", "")
-        else:
-            base_name = filename.replace(".tif", "")
-            
-        # Construct Expected Label Name
-        # Logic: Image "Name.tif" -> Label "Name_label.tif"
-        label_name = f"{base_name}_label.tif"
-        label_path = os.path.join(label_dir, label_name)
+        # Create the base name by removing the known mask suffix and extension
+        base_name_for_matching = mask_filename.replace("_mask.tif", "").replace("_mask.ome.tif", "")
         
-        if os.path.exists(label_path):
-            pairs.append((img_path, label_path, base_name))
+        # --- DEBUGGING ---
+        print(f"--> Debug: Processing mask '{mask_filename}'. Generated prefix for matching: '{base_name_for_matching}'")
+        # --- END DEBUGGING ---
+
+        # Find all image files that start with this exact base name
+        matching_images = [
+            p for p in image_files 
+            if os.path.basename(p).startswith(base_name_for_matching)
+        ]
+        
+        if matching_images:
+            # The base name for saving should be the clean name from the mask
+            pairs.append((matching_images, mask_path, base_name_for_matching, set_name))
         else:
-            print(f"⚠️ Warning: Label not found for {filename} (Expected: {label_name})")
+            # This warning is now part of the standard flow, but good for debugging.
+            print(f"⚠️ Warning: No images found for mask {mask_filename} (Searched for prefix: {base_name_for_matching})")
             
     return pairs
 
-# --- 3. CONNECTED COMPONENT LABELING HELPER ---
-def apply_connected_component_labeling(label_slice):
+def apply_connected_component_labeling(mask_slice):
     """
     Separate touching/overlapping objects into individual labeled regions.
-    Each connected component gets a unique sequential label (1, 2, 3, ...).
-    Background (0) is preserved.
-    
-    Uses 8-connectivity (includes diagonal neighbors).
-    
-    Args:
-        label_slice: 2D array with label values (0 = background, non-zero = objects)
-        
-    Returns:
-        label_slice: 2D array with each connected object having unique label
     """
-    # Create binary mask (0 = background, 1 = any object)
-    binary_mask = label_slice > 0
-    
-    # Find all connected components and assign unique labels
-    labeled_array, num_features = ndimage.label(binary_mask)
-    
+    binary_mask = mask_slice > 0
+    # Use 8-connectivity
+    labeled_array, _ = ndimage.label(binary_mask, structure=np.ones((3, 3)))
     return labeled_array
 
-# --- 4. PROCESSING LOOP ---
-pairs = get_matched_pairs(IMAGE_DIR, LABEL_DIR)
-print(f"Found {len(pairs)} matched image-label pairs. Starting processing...")
+def process_files(all_pairs, save_root):
+    """
+    Main processing loop. Duplicates mask slices for each image variation.
+    """
+    if not all_pairs:
+        print("No matched image-mask pairs found to process.")
+        return
 
-total_slices_saved = 0
+    total_slices_saved = 0
 
-for img_path, lbl_path, base_name in tqdm(pairs, desc="Processing files"):
-    
-    # A. LOAD DATA
-    try:
-        raw_data = tifffile.imread(img_path)
-        manual_labels = tifffile.imread(lbl_path)
-    except Exception as e:
-        print(f"❌ Error reading {base_name}: {e}")
-        continue
+    for image_paths, msk_path, base_name, set_name in tqdm(all_pairs, desc="Processing files"):
+        try:
+            # Load the single mask that corresponds to all image variations
+            manual_masks = tifffile.imread(msk_path)
+        except Exception as e:
+            print(f"❌ Error reading mask {os.path.basename(msk_path)}: {e}")
+            continue
 
-    # B. HANDLE DIMENSIONS (Your Snippet)
-    # ---------------------------------------------------------
-    ## Verify axis order from OME metadata
-    with tifffile.TiffFile(img_path) as tif:
-        if tif.ome_metadata:
+        # Loop through each image variation (original, _dog, etc.)
+        for img_path in image_paths:
             try:
-                raw_axis_order = tif.series[0].axes
-                # print(f"ℹ️ {base_name} Metadata Axis Order: {raw_axis_order}")
-            except Exception:
-                pass
+                # Define output directories dynamically for each file
+                img_output_dir = os.path.join(save_root, set_name, "images")
+                msk_output_dir = os.path.join(save_root, set_name, "masks")
+                os.makedirs(img_output_dir, exist_ok=True)
+                os.makedirs(msk_output_dir, exist_ok=True)
 
-    if raw_data.ndim == 4:
-        if raw_data.shape[0] <= 4:  # (C, Z, Y, X)
-            raw_data = np.transpose(raw_data, (1, 2, 3, 0))
-        elif raw_data.shape[1] <= 4:  # (Z, C, Y, X)
-            raw_data = np.transpose(raw_data, (0, 2, 3, 1))
-    elif raw_data.ndim == 3:
-            # Assume (Z, Y, X) if 3D, add dummy channel dim -> (Z, Y, X, 1)
-            raw_data = raw_data[..., np.newaxis]
+                raw_data = tifffile.imread(img_path)
+            except Exception as e:
+                print(f"❌ Error reading image {os.path.basename(img_path)}: {e}")
+                continue
 
-    print(f"Processed shape (Z, Y, X): {raw_data.shape}")
+            # B. HANDLE DIMENSIONS
+            if raw_data.ndim == 4:
+                if raw_data.shape[0] <= 5 and raw_data.shape[0] < raw_data.shape[1]:
+                    raw_data = np.transpose(raw_data, (1, 2, 3, 0))
+                elif raw_data.shape[1] <= 5:
+                    raw_data = np.transpose(raw_data, (0, 2, 3, 1))
+            elif raw_data.ndim == 3:
+                raw_data = raw_data[..., np.newaxis]
 
-    # Calculate percentiles on the entire 3D volume at once
-    low, high = np.percentile(raw_data, (0.00001, 99.9999))
-    print(f"Percentile values: low={low}, high={high}")
-    if high > low:
-        # Normalize to 0-1 as float32
-        raw_data = (raw_data.astype(np.float32) - low) / (high - low)
-        raw_data = np.clip(raw_data, 0, 1)
-    else:
-        # Flat image fallback
-        raw_data = np.zeros_like(raw_data, dtype=np.float32)
-        
-    # C. RGB CONVERSION (Your Snippet)
-    Z, Y, X, C = raw_data.shape
-    raw_data_rgb = np.zeros((Z, Y, X, 3), dtype=raw_data.dtype)
+            if raw_data.ndim != 4:
+                print(f"⚠️ Skipping {os.path.basename(img_path)}: Unexpected shape {raw_data.shape}")
+                continue
+                
+            # C. NORMALIZE
+            low, high = np.percentile(raw_data, (0.00001, 99.99999))
+            if high > low:
+                raw_data = np.clip((raw_data.astype(np.float32) - low) / (high - low), 0, 1)
+            else:
+                raw_data = np.zeros_like(raw_data, dtype=np.float32)
+                
+            # D. RGB CONVERSION
+            Z, Y, X, C = raw_data.shape
+            raw_data_rgb = np.zeros((Z, Y, X, 3), dtype=np.float32)
+            raw_data_rgb[..., :min(C, 3)] = raw_data[..., :min(C, 3)]
 
-    raw_data_rgb[..., :min(C, 2)] = raw_data[..., :min(C, 2)]
-    print(f"Final RGB shape: {raw_data_rgb.shape}")
+            # E. FILTER & SAVE SLICES
+            # Get the specific filename of the image variation being processed
+            img_variation_name = os.path.basename(img_path).replace(".ome.tif", "").replace(".tif", "")
 
-    # D. FILTER & SAVE SLICES
-    # ---------------------------------------------------------
-    # We loop through Z and check the mask
-    saved_count_local = 0
+            for z in range(Z):
+                if np.any(manual_masks[z]):
+                    # Filename for the slice now matches the specific image variation
+                    fname = f"{img_variation_name}_slice_{z:04d}.tif"
+                    img_save_path = os.path.join(img_output_dir, fname)
+                    msk_save_path = os.path.join(msk_output_dir, fname)
+                    
+                    tifffile.imwrite(img_save_path, raw_data_rgb[z])
+                    
+                    # Apply labeling to the original mask slice and save it
+                    labeled_slice = apply_connected_component_labeling(manual_masks[z])
+                    tifffile.imwrite(msk_save_path, labeled_slice.astype(np.uint16))
+                    
+                    total_slices_saved += 1
+
+    print("\n" + "-"*50)
+    print("🎉 Processing Complete.")
+    # Note: total_slices_saved now counts each duplicated mask slice
+    print(f"✅ Total clean slices saved: {total_slices_saved}")
+    print(f"📂 Data saved in: {save_root}")
+    print("-"*50)
+
+def main():
+    """
+    Main function to run the entire preprocessing pipeline.
+    """
+    print(f"Output will be saved to: {SAVE_ROOT}")
     
-    for z in range(Z):
-        # CHECK: Is there any annotation in this slice?
-        if np.max(manual_labels[z]) > 0:
-            
-            # Construct unique filename: BrainName_slice_005.tif
-            fname = f"{base_name}_slice_{z:04d}.tif"
-            
-            img_save_path = os.path.join(IMG_OUTPUT_DIR, fname)
-            lbl_save_path = os.path.join(LBL_OUTPUT_DIR, fname)
-            
-            # Save Image (The RGB version)
-            tifffile.imwrite(img_save_path, raw_data_rgb[z])
-            
-            # Apply connected component labeling to ensure unique labels
-            labeled_slice = apply_connected_component_labeling(manual_labels[z])
-            tifffile.imwrite(lbl_save_path, labeled_slice)
-            
-            saved_count_local += 1
+    all_pairs = []
+    for set_name in PROCESS_SETS:
+        print(f"\n--- Searching in '{set_name}' folder ---")
+        set_pairs = find_image_mask_pairs(INPUT_ROOT, set_name)
+        all_pairs.extend(set_pairs)
+        print(f"Found {len(set_pairs)} matched pairs in '{set_name}'.")
 
-    total_slices_saved += saved_count_local
+    print("\n" + "="*50)
+    print(f"Total found {len(all_pairs)} matched image-mask pairs. Starting processing...")
+    print("="*50)
+    
+    process_files(all_pairs, SAVE_ROOT)
 
-print("------------------------------------------------")
-print(f"🎉 Processing Complete.")
-print(f"✅ Total clean slices saved: {total_slices_saved}")
-print(f"📂 Images: {IMG_OUTPUT_DIR}")
-print(f"📂 Labels: {LBL_OUTPUT_DIR}")
+if __name__ == "__main__":
+    main()

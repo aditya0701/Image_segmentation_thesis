@@ -1,0 +1,26 @@
+######################################################################
+# microsam_train.sub — HTCondor submit file for MicroSAM training
+# Set args to: all | dog | original | psf
+######################################################################
+
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/run.sh
+args         = 
+initialdir   = /work/scratch/rawat
+
+output = /work/scratch/rawat/image-segmentation-thesis/logs_microsam_v2/loc_$(cluster).$(Process)_out.log
+error  = /work/scratch/rawat/image-segmentation-thesis/logs_microsam_v2/loc_$(cluster).$(Process)_err.log
+log    = /work/scratch/rawat/image-segmentation-thesis/logs_microsam_v2/loc_$(cluster).$(Process)_log.log
+
+getenv        = True
+on_exit_hold  = (ExitBySignal == True) || (ExitCode != 0)
+nice_user     = True
+
+request_cpus  = 8
+request_gpus  = 1
+request_memory = 64 GB
+request_disk  = 50 GB
+
+requirements  = (GPUs_GlobalMemoryMb >= 40000)
+rank          = memory
+
+queue

@@ -1,0 +1,72 @@
+######################################################################
+# Readme
+######################################################################
+# Execute this job:
+#   - connect to `nic` via ssh: `ssh username@nic` (enter passwd)
+#   - start job: `condor_submit /path/to/this/file.sub`
+#
+# Monitor jobs:
+#   - see machines: `condor_status`
+#   - see queue: `condor_q`
+#   - keep monitoring queue: `watch condor_q` (quit with ctrl + c)
+#
+# Find out more at:
+# http://www.iac.es/sieinvens/siepedia/pmwiki.php?n=HOWTOs.CondorHowTo
+######################################################################
+
+
+######################################################################
+# Necessary parameters
+######################################################################
+
+# Shell script that you want to execute
+cmd = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/nnunet_train.sh
+
+# command line arguments
+args =
+
+# start directory
+initialdir = /work/scratch/rawat
+
+# define output, error and log file
+output = /work/scratch/rawat/image-segmentation-thesis/logs_nnunet/loc_$(cluster).$(Process)_out.log
+error  = /work/scratch/rawat/image-segmentation-thesis/logs_nnunet/loc_$(cluster).$(Process)_err.log
+log    = /work/scratch/rawat/image-segmentation-thesis/logs_nnunet/loc_$(cluster).$(Process)_log.log
+
+# working environments
+getenv        = True
+environment   = "working_dir=/work/scratch/rawat/installations/conda/envs/bw_env data_dir=/work/scratch/rawat/"
+
+
+######################################################################
+# Optional parameters
+######################################################################
+
+# If your job quits with an exit code other than 0 (error occurred) it will be held.
+on_exit_hold = (ExitBySignal == True) || (ExitCode != 0)
+
+# Nice job will not change your priority.
+nice_user = True
+
+# use only a gpu that supports half precision
+# requirements = (HALF_PREC == 1)
+
+# GPU RAM: nnU-Net 3d_fullres needs at least 24 GB
+requirements = (GPUs_GlobalMemoryMb >= 24000) && (GPUs_GlobalMemoryMb < 40000)
+
+# required number of CPU cores
+request_cpus = 8
+
+# required number of GPUs
+request_gpus = 1
+
+# required CPU RAM
+request_memory = 32 GB
+
+# required Disk space (nnU-Net writes preprocessed data to disk)
+request_disk = 100 GB
+
+# criterion after which to choose the machine
+rank = memory
+
+queue

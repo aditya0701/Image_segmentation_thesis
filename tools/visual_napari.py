@@ -3,21 +3,21 @@ import numpy as np
 import napari
 
 # --- PATHS ---
-IMAGE_PATH = r"/home/students/rawat/Dataset/Surface_Masks/Surface_Masks/Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL.tif"
+IMAGE_PATH = r"/home/students/rawat/training_data_new/data/train/images/PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_slice_0016.tif"
 # Use the path where you saved your auto-generated results
 # MASK_PATH = r"D:\Thesis_images\All_images_tif\Final_annotation\PN_KC_488_568_Brain1_CalyxR_LSMPlus_16bit_label.tif"
-# MASK_FIX_PATH = r"/home/students/rawat/czi_output/Annotations/Processed_labels/pred_test/PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_mask_5_labels.tif"
+MASK_FIX_PATH = r"/home/students/rawat/training_data_new/data/train/labels/PN_KC_488_568_Brain1_CalyxL_LSMPlus_16bit_slice_0016.tif"
 # MASK_IMARIS_PATH = r"/home/students/rawat/Dataset/Surface_Masks/Surface_Masks/Brain1_1340_Cont_Fly1_CalyxL_Mask.tif"
 
 
 print("Loading images...")
 img = tifffile.imread(IMAGE_PATH)
 # mask = tifffile.imread(MASK_PATH)
-# mask_fix = tifffile.imread(MASK_FIX_PATH)
+mask_fix = tifffile.imread(MASK_FIX_PATH)
 # mask_imaris = tifffile.imread(MASK_IMARIS_PATH)
 print(f"Image shape (original): {img.shape}")
 # print(f"Mask shape: {mask.shape}")
-# print(f"Mask fix shape: {mask_fix.shape}")
+print(f"Mask fix shape: {mask_fix.shape}")
 # print(f"Mask imaris shape: {mask_imaris.shape}")
 
 def print_image_stats(image, name="Image"):
@@ -58,22 +58,30 @@ print("Processing image...")
 raw_data = img
 print(f"Original shape: {raw_data.shape}")
 
-# Extract and reorder dimensions to (Z, Y, X, C)
-if raw_data.ndim == 4:
+# --- Dimension Handling ---
+# If the image is 3D and the last dimension is small (<=4), it's likely (Y, X, C).
+# We add a Z-axis to make it (Z, Y, X, C) for napari.
+if raw_data.ndim == 3 and raw_data.shape[-1] <= 4:
+    print("Detected format (Y, X, C). Adding a Z dimension.")
+    raw_data = raw_data[np.newaxis, ...]
+
+# If the image is 3D and not (Y, X, C), it must be a (Z, Y, X) volume.
+# We add a channel axis to make it (Z, Y, X, C).
+elif raw_data.ndim == 3:
+    print("Detected format (Z, Y, X). Adding a channel dimension.")
+    raw_data = raw_data[..., np.newaxis]
+
+# If the image is 4D, we assume it's one of the standard C/Z orders and transpose if needed.
+elif raw_data.ndim == 4:
     if raw_data.shape[0] <= 4:  # (C, Z, Y, X)
         print("Detected format (C, Z, Y, X). Transposing to (Z, Y, X, C)...")
         raw_data = np.transpose(raw_data, (1, 2, 3, 0))
     elif raw_data.shape[1] <= 4:  # (Z, C, Y, X)
         print("Detected format (Z, C, Y, X). Transposing to (Z, Y, X, C)...")
         raw_data = np.transpose(raw_data, (0, 2, 3, 1))
-    else:
-        print("Detected format (Z, Y, X, C). Keeping original orientation.")
-elif raw_data.ndim == 3:
-    print("Detected format (Z, Y, X). Adding channel dimension...")
-    # Assume (Z, Y, X) if 3D, add dummy channel dim -> (Z, Y, X, 1)
-    raw_data = raw_data[..., np.newaxis]
+    # Otherwise, we assume it's already (Z, Y, X, C)
 
-print(f"Processed shape (Z, Y, X, C): {raw_data.shape}")
+print(f"Processed shape for napari (Z, Y, X, C): {raw_data.shape}")
 
 print(f"The data type is {raw_data.dtype}, normalizing to float32.")
 # Calculate percentiles on the entire volume
@@ -91,7 +99,6 @@ else:
 print(f"Image preprocessing complete. Shape: {img_float.shape}")
 
 # --- 2. GENERATE COLORMAPS AND NAMES ---
-# colormap_label, name_label = generate_colormaps_and_names(mask, is_label=True)
 colormap_image, name_image = generate_colormaps_and_names(img_float, is_label=False)
 
 # only use first channel for mask_imaris
@@ -109,34 +116,30 @@ colormap_image, name_image = generate_colormaps_and_names(img_float, is_label=Fa
 # # We say: "If the pixel value is greater than 0, make it Label 1. Otherwise Label 0."
 # mask_integer = (mask_channel).astype('uint16')
 # --- 3. Initialize Viewer ---
-viewer = napari.Viewer()      
+viewer = napari.Viewer()
 
-# channel_axis=3 splits the C dimension (last axis) into separate layers for (Z, Y, X, C) format
+# channel_axis=-1 is more robust as it always refers to the last axis
 viewer.add_image(
-    img_float, 
-    channel_axis=3, 
+    img_float,
+    channel_axis=-1,
     colormap=colormap_image,
     name=name_image,
-    scale=(1, 1, 1)  # Scale for (Z, Y, X)
 )
 # viewer.add_labels(
 #     mask_integer,
 #     name='Imaris Bouton Annotations',
 #     opacity=0.6,
-#     scale=(1, 1, 1)
 # )
-# # ## add labels for mask 
+# # ## add labels for mask
 # viewer.add_labels(
 #     mask,
 #     name='Predicted (before fix)',
 #     opacity=0.6,
-#     scale=(1, 1, 1)
 # )
-# viewer.add_labels(
-#     mask_fix,
-#     name='Edited Bouton Annotations',
-#     opacity=0.6,
-#     scale=(1, 1, 1)
-# )   
+viewer.add_labels(
+    mask_fix,
+    name='Edited Bouton Annotations',
+    opacity=0.6,
+)   
 print("Napari launched. Use the slider at the bottom to scroll through Z-slices.")
 napari.run()

@@ -17,7 +17,7 @@ vram=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits)
 echo "GPU has $vram MB free memory."
 
 # Logic: If >32GB use Batch 4, If >20GB use Batch 2, Else Batch 1
-if [ "$vram" -gt 20000 ]; then
+if [ "$vram" -gt 60000 ]; then
     BATCH=2
 else
     BATCH=1
@@ -27,4 +27,4 @@ echo "Selected Batch Size: $BATCH"
 
 # 3. Run Python with the selected batch size
 # -u means unbuffered, so you see prints immediately
-python  /work/scratch/rawat/image-segmentation-thesis/Training_code/training_cellpose3d.py
+python -u /work/scratch/rawat/image-segmentation-thesis/Training_code/training_cellpose3d.py

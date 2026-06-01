@@ -1,0 +1,36 @@
+######################################################################
+# cellpose_train.tbi — HTCondor submit file for Cellpose 3D training
+#
+# Usage: condor_submit cellpose_train.tbi -a "args=<dataset>" -a "mem=<GB>"
+#
+#   condor_submit cellpose_train.tbi -a "args=all"      -a "mem=48"
+#   condor_submit cellpose_train.tbi -a "args=dog"      -a "mem=32"
+#   condor_submit cellpose_train.tbi -a "args=original" -a "mem=32"
+#   condor_submit cellpose_train.tbi -a "args=psf"      -a "mem=32"
+#
+# HTCondor does not support string equality in if-conditions,
+# so memory is passed as a separate numeric macro (mem=48 or mem=32).
+######################################################################
+
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/run_cellpose.sh
+args         =
+mem          = 32
+initialdir   = /work/scratch/rawat
+
+output = /work/scratch/rawat/image-segmentation-thesis/logs_cellpose/loc_$(cluster).$(Process)_out.log
+error  = /work/scratch/rawat/image-segmentation-thesis/logs_cellpose/loc_$(cluster).$(Process)_err.log
+log    = /work/scratch/rawat/image-segmentation-thesis/logs_cellpose/loc_$(cluster).$(Process)_log.log
+
+getenv        = True
+on_exit_hold  = (ExitBySignal == True) || (ExitCode != 0)
+nice_user     = True
+
+request_cpus   = 8
+request_gpus   = 1
+request_memory = $(mem) GB
+request_disk   = 50 GB
+
+requirements  = (GPUs_GlobalMemoryMb >= 20000) && (GPUs_GlobalMemoryMb < 90000)
+rank          = memory
+
+queue

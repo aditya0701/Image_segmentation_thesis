@@ -1,0 +1,35 @@
+######################################################################
+# infer.sub — single Condor submit file for all inference scripts
+#
+# Usage (submit one job per script):
+#   condor_submit infer.sub -a "args=batch_infer_microsam.py"
+#   condor_submit infer.sub -a "args=batch_infer_microsam_base.py"
+#   condor_submit infer.sub -a "args=batch_infer_cellpose.py"
+#   condor_submit infer.sub -a "args=batch_infer_swinunetr.py"
+#   condor_submit infer.sub -a "args=batch_infer_nnunet.py"
+#
+# Script is looked up relative to this folder automatically.
+######################################################################
+
+cmd        = /work/scratch/rawat/image-segmentation-thesis/Training_code/inference/run_infer.sh
+args       =
+initialdir = /work/scratch/rawat/image-segmentation-thesis/Training_code/inference
+
+output = /work/scratch/rawat/image-segmentation-thesis/logs_inference/$(args)_$(cluster).$(Process)_out.log
+error  = /work/scratch/rawat/image-segmentation-thesis/logs_inference/$(args)_$(cluster).$(Process)_err.log
+log    = /work/scratch/rawat/image-segmentation-thesis/logs_inference/$(args)_$(cluster).$(Process)_log.log
+
+getenv        = True
+on_exit_hold  = (ExitBySignal == True) || (ExitCode != 0)
+nice_user     = True
+
+request_cpus   = 4
+request_gpus   = 1
+request_memory = 32 GB
+request_disk   = 50 GB
+
+# MicroSAM Large needs ~20-24 GB VRAM; all others fit on 24 GB
+requirements = (GPUs_GlobalMemoryMb >= 24000) && (GPUs_GlobalMemoryMb < 60000)
+rank         = memory
+
+queue
