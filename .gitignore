@@ -33,6 +33,15 @@ data/processed/
 logs/
 *.log
 
+# Training log exports - keep small summary files (training_log_*.txt,
+# debug.json, summary.json, progress.png), drop the large raw artifacts
+# (regenerable from training runs / checkpoints)
+training_logs_export/**/events.out.tfevents*
+training_logs_export/**/*.npz
+training_logs_export/**/*.nii.gz
+training_logs_export/**/*.pkl
+tools/training_logs.csv
+
 # OS
 .DS_Store
 Thumbs.db
