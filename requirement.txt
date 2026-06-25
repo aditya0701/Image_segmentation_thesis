@@ -1,46 +1,39 @@
-# Core Scientific Computing
-numpy>=1.24.0
-scipy>=1.10.0
-pandas>=2.0.0
-matplotlib>=3.7.0
+# Core scientific computing
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+scikit-learn
 
-# Image Processing & Segmentation
-scikit-image>=0.21.0
-opencv-python>=4.8.0
-tifffile>=2023.4.12
+# Image I/O & processing
+tifffile
+scikit-image
+opencv-python
+nibabel
+SimpleITK
+czifile
 
-# **PYTORCH FOR SEGMENTATION** (Your ML backbone)
-torch>=2.0.0
-torchvision>=0.15.0
-torchaudio>=2.0.0     # Optional but included for completeness
-# CUDA version (auto-detected by PyTorch)
-# torch>=2.0.0+cu118   # Uncomment if you know CUDA version
+# Deep learning
+torch
+torchvision
+torchaudio
+kornia
+torch_em
+monai
 
-# Machine Learning
-scikit-learn>=1.3.0
+# Segmentation models
+# micro_sam is not reliably published on PyPI - install via conda/mamba instead:
+#   mamba install -c conda-forge micro_sam
+segment-anything
+cellpose
+nnunetv2
 
-# Napari Ecosystem
-napari>=0.4.18
-napari-skimage-regionprops>=0.1.0
-magicgui>=0.7.0
-napari-simpleitk-image-processor>=0.4.0
+# Visualization & annotation
+napari
 
-# **BIOLOGY SEGMENTATION MODELS (All PyTorch-based!)**
-cellpose>=0.7.0          # PyTorch under the hood
-stardist>=0.9.0          # Star-convex models for glomeruli
-segment-anything>=1.0    # Meta's SAM for interactive segmentation
-
-# Fiji Integration
-pyfiji>=0.2.0
-pims>=0.5
-
-# Utilities
-tqdm>=4.65.0
-seaborn>=0.12.0
-jupyter>=1.0.0
-ipykernel>=6.25.0
-numba>=0.57.0
-dask[complete]>=2023.8.0
-
-# Auto-tracking (Keep this!)
-pipreqs>=0.4.13
+# Experiment tracking & utilities
+tensorboard
+tqdm
+jupyter
+ipykernel

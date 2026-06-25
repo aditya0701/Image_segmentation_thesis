@@ -6,7 +6,6 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.9-ee4c2c)](https://pytorch.org/)
-[![Poetry](https://img.shields.io/badge/deps-poetry-60a5fa)](https://python-poetry.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](#license)
 
 </div>
@@ -67,19 +66,21 @@ assets/gifs/                    # Sample input / ground-truth / prediction visua
 
 ## Setup
 
-The project uses [Poetry](https://python-poetry.org/) for dependency management.
+This project was developed across two machines, so two setup paths are supported:
 
-```bash
-poetry install
-```
-
-A conda-based alternative environment (for napari-based annotation/visualization tooling) is defined in `environment.yml`:
+**Mamba/conda** (annotation & visualization machine, napari-based tooling), defined in `environment.yml`:
 
 ```bash
 mamba env create -f environment.yml
 ```
 
-A `requirements.txt`-based fallback (`setup.sh`) is also provided for cluster environments without Poetry.
+**pip** (training/inference machine), via `requirement.txt`:
+
+```bash
+pip install -r requirement.txt
+```
+
+`micro_sam` is not reliably published on PyPI — install it via conda/mamba instead (see comment in `requirement.txt`).
 
 ## Training
 
