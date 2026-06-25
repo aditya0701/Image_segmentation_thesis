@@ -57,6 +57,7 @@ def generate_colormaps_and_names(img, is_label = False):
 print("Processing image...")
 raw_data = img
 print(f"Original shape: {raw_data.shape}")
+<<<<<<< HEAD
 
 # --- Dimension Handling ---
 # If the image is 3D and the last dimension is small (<=4), it's likely (Y, X, C).
@@ -83,6 +84,26 @@ elif raw_data.ndim == 4:
 
 print(f"Processed shape for napari (Z, Y, X, C): {raw_data.shape}")
 
+=======
+
+# Extract and reorder dimensions to (Z, Y, X, C)
+if raw_data.ndim == 4:
+    if raw_data.shape[0] <= 4:  # (C, Z, Y, X)
+        print("Detected format (C, Z, Y, X). Transposing to (Z, Y, X, C)...")
+        raw_data = np.transpose(raw_data, (1, 2, 3, 0))
+    elif raw_data.shape[1] <= 4:  # (Z, C, Y, X)
+        print("Detected format (Z, C, Y, X). Transposing to (Z, Y, X, C)...")
+        raw_data = np.transpose(raw_data, (0, 2, 3, 1))
+    else:
+        print("Detected format (Z, Y, X, C). Keeping original orientation.")
+elif raw_data.ndim == 3:
+    print("Detected format (Z, Y, X). Adding channel dimension...")
+    # Assume (Z, Y, X) if 3D, add dummy channel dim -> (Z, Y, X, 1)
+    raw_data = raw_data[..., np.newaxis]
+
+print(f"Processed shape (Z, Y, X, C): {raw_data.shape}")
+
+>>>>>>> 4829230295be72983734735c13ceec93b8050590
 print(f"The data type is {raw_data.dtype}, normalizing to float32.")
 # Calculate percentiles on the entire volume
 low, high = np.percentile(raw_data, (0.00001, 99.9999))
@@ -103,6 +124,7 @@ colormap_image, name_image = generate_colormaps_and_names(img_float, is_label=Fa
 
 # only use first channel for mask_imaris
 # Handle both 3D and 4D cases
+<<<<<<< HEAD
 # if mask_imaris.ndim == 4:
 #     if mask_imaris.shape[0] > 3:
 #         # Format is (Z, C, H, W), select channel 1
@@ -115,21 +137,47 @@ colormap_image, name_image = generate_colormaps_and_names(img_float, is_label=Fa
 #     mask_channel = mask_imaris
 # # We say: "If the pixel value is greater than 0, make it Label 1. Otherwise Label 0."
 # mask_integer = (mask_channel).astype('uint16')
+=======
+if mask_imaris.ndim == 4:
+    if mask_imaris.shape[0] > 3:
+        # Format is (Z, C, H, W), select channel 1
+        mask_channel = mask_imaris[:, 1, :, :]
+    else:
+        # Format is (C, Z, H, W), select channel 1
+        mask_channel = mask_imaris[1, :, :, :]
+else:
+    # If 3D (Z, H, W), use the entire array
+    mask_channel = mask_imaris
+# We say: "If the pixel value is greater than 0, make it Label 1. Otherwise Label 0."
+mask_integer = (mask_channel).astype('uint16')
+>>>>>>> 4829230295be72983734735c13ceec93b8050590
 # --- 3. Initialize Viewer ---
 viewer = napari.Viewer()
 
+<<<<<<< HEAD
 # channel_axis=-1 is more robust as it always refers to the last axis
 viewer.add_image(
     img_float,
     channel_axis=-1,
     colormap=colormap_image,
     name=name_image,
+=======
+# channel_axis=3 splits the C dimension (last axis) into separate layers for (Z, Y, X, C) format
+viewer.add_image(
+    img_float,
+    channel_axis=3,
+    colormap=colormap_image,
+    name=name_image,
+    visible=True,
+    scale=(1, 1, 1)  # Scale for (Z, Y, X)
+>>>>>>> 4829230295be72983734735c13ceec93b8050590
 )
 # viewer.add_labels(
 #     mask_integer,
 #     name='Imaris Bouton Annotations',
 #     opacity=0.6,
 # )
+<<<<<<< HEAD
 # # ## add labels for mask
 # viewer.add_labels(
 #     mask,
@@ -141,5 +189,38 @@ viewer.add_labels(
     name='Edited Bouton Annotations',
     opacity=0.6,
 )   
+=======
+# add labels for mask 
+viewer.add_labels(
+    mask,
+    name='Large annotations',
+    opacity=0.6,
+    visible=False,
+    scale=(1, 1, 1)
+)
+viewer.add_labels(
+    mask_fix,
+    name='original annotations',
+    opacity=0.6,
+    visible=False,
+    scale=(1, 1, 1)
+)
+
+viewer.add_image(
+    mask_og,
+    name='OG annotations',
+    blending='additive',
+    visible=False,
+    scale=(1, 1, 1)
+)
+
+viewer.add_labels(
+    mask_rough,
+    name='Rough annotations',
+    opacity=0.6,
+    visible=True,
+    scale=(1, 1, 1)
+)
+>>>>>>> 4829230295be72983734735c13ceec93b8050590
 print("Napari launched. Use the slider at the bottom to scroll through Z-slices.")
 napari.run()
