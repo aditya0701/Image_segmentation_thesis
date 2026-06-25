@@ -1,10 +1,37 @@
-# Image Segmentation Thesis
+<div align="center">
 
-Instance segmentation of *Drosophila* microglomeruli (synaptic boutons) in confocal microscopy volumes, comparing several deep-learning segmentation backbones: **MicroSAM**, **Cellpose 3D**, **nnU-Net v2**, and **SwinUNETR**.
+# 🧠 Microglomeruli Segmentation
+
+### Instance segmentation of synaptic boutons in *Drosophila melanogaster* brains from fluorescent confocal microscopy
+
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.9-ee4c2c)](https://pytorch.org/)
+[![Poetry](https://img.shields.io/badge/deps-poetry-60a5fa)](https://python-poetry.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](#license)
+
+</div>
+
+---
+
+## What this is
+
+This repository contains the training, inference, and evaluation code for my thesis on segmenting **microglomeruli** — synaptic bouton structures — in confocal microscopy volumes of the *Drosophila* brain. Several segmentation backbones are trained and compared: **MicroSAM**, **Cellpose 3D**, **nnU-Net v2**, and **SwinUNETR**.
+
+## Sample results
+
+A MicroSAM (`vit_l_lm`) model fine-tuned on this data, run on a held-out volume:
+
+<div align="center">
+
+| Raw input | Ground truth | Prediction |
+|:---:|:---:|:---:|
+| ![Raw input](assets/gifs/original.gif) | ![Ground truth](assets/gifs/ground_truths.gif) | ![Prediction](assets/gifs/predicitons.gif) |
+
+</div>
 
 ## Overview
 
-The project trains and evaluates multiple segmentation models on 2D/3D fluorescence microscopy data, across several preprocessing variants of the same dataset:
+Models are trained on image/mask `.tif` slices (or volumes for the 3D pipelines) across several preprocessing variants of the same underlying dataset, and evaluated with instance-matching metrics.
 
 | Dataset key | Description |
 |---|---|
@@ -12,8 +39,6 @@ The project trains and evaluates multiple segmentation models on 2D/3D fluoresce
 | `dog` | Difference-of-Gaussians preprocessed |
 | `original` | Unprocessed raw images |
 | `psf` | PSF-deconvolved images |
-
-Models are trained on image/mask `.tif` slices (or volumes for the 3D pipelines), and evaluated with instance-matching metrics (e.g. linear-sum-assignment-based matching, voxel-volume-aware metrics).
 
 ## Repository layout
 
@@ -37,6 +62,7 @@ tools/
   downscale_*.py, shrink_mask.py, thresholding.py, region_growing.py, edge_detection.py  # Pre/post-processing utilities
   *.ipynb                       # Exploratory notebooks (data verification, diagnostics, seed detection)
 weights/                        # Pretrained / fine-tuned model checkpoints
+assets/gifs/                    # Sample input / ground-truth / prediction visualizations
 ```
 
 ## Setup
