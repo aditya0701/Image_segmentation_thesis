@@ -7,6 +7,8 @@
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.9-ee4c2c)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](#license)
+[![Model on HF](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-models-yellow)](https://huggingface.co/aditya0701/Drosophilla_melanogaster_Bouton_3d_segmentation)
+[![Annotation Tool](https://img.shields.io/badge/GitHub-annotation%20tool-181717?logo=github)](https://github.com/aditya0701/Fluorescent-Microscopy-Image-Segmentation-and-Quantification)
 
 </div>
 
@@ -64,6 +66,18 @@ weights/                        # Pretrained / fine-tuned model checkpoints
 assets/gifs/                    # Sample input / ground-truth / prediction visualizations
 ```
 
+## Pretrained weights
+
+The final, selected model checkpoints (i.e. the ones reported in the thesis, not rejected experiment runs) are published on Hugging Face:
+
+🤗 **[aditya0701/Drosophilla_melanogaster_Bouton_3d_segmentation](https://huggingface.co/aditya0701/Drosophilla_melanogaster_Bouton_3d_segmentation)**
+
+## Related resources
+
+For an end-user-facing tool built on top of these models — letting users run segmentation and manually delete unwanted/false-positive boutons — see:
+
+🛠️ **[Fluorescent-Microscopy-Image-Segmentation-and-Quantification](https://github.com/aditya0701/Fluorescent-Microscopy-Image-Segmentation-and-Quantification)**
+
 ## Setup
 
 This project was developed across two machines, so two setup paths are supported:
@@ -115,6 +129,23 @@ Batch inference scripts live in `Training_code/inference/` (one per model backbo
 
 `tools/evaluate_segmentation.py` matches predicted instances to ground truth via linear sum assignment and computes per-dataset metrics (with physical voxel volume taken into account).
 
+## Citation
+
+If you use these weights in your work, please cite the accompanying thesis.
+
+```bibtex
+@mastersthesis{rawat2026microsam,
+  author  = {Aditya Rawat},
+  title   = {Image Segmentation and Quantification of Synaptic Markers in the Mushroom Body Calyx of Drosophila melanogaster},
+  school  = {RWTH Aachen University, Software Engineering Group},
+  year    = {2026}
+}
+```
+
 ## License
 
-MIT
+This model is released under the MIT License. Please refer to the [LICENSE](LICENSE) file in this repository for full terms.
+
+## Acknowledgments
+
+This work was carried out at the Software Engineering Group, RWTH Aachen University, under the supervision of Prof. Dr. Abigail Morrison, with Prof. Dr.-Ing. Johannes Stegmaier serving as second examiner. The Imaris reference segmentations used for comparison were provided by collaborating biologists in the Tavosanis laboratory. Hardware for training was provided by the Institute of Imaging & Computer Vision (LfB), RWTH Aachen University.
