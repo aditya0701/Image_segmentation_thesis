@@ -29,9 +29,9 @@ args =
 initialdir = /work/scratch/rawat
 
 # define output, error and log file
-output = /work/scratch/rawat/image-segmentation-thesis/logs/loc_$(cluster).$(Process)_out.log
-error = /work/scratch/rawat/image-segmentation-thesis/logs/loc_$(cluster).$(Process)_err.log
-log = /work/scratch/rawat/image-segmentation-thesis/logs/loc_$(cluster).$(Process)_log.log
+output = /work/scratch/rawat/image-segmentation-thesis/logs_microsam_v2/loc_$(cluster).$(Process)_out.log
+error = /work/scratch/rawat/image-segmentation-thesis/logs_microsam_v2/loc_$(cluster).$(Process)_err.log
+log = /work/scratch/rawat/image-segmentation-thesis/logs_microsam_v2/loc_$(cluster).$(Process)_log.log
 
 # working environments
 getenv        = True
@@ -83,7 +83,7 @@ requirements = (HALF_PREC == 1)
 # Attention: You can only set one requirement line. Add more requirements by using && e.g.
 #
 # requirements = (CUDAGlobalMemoryMb > 4000) && (CUDAGlobalMemoryMb < 20000) && POOL =="workstation"
-requirements = (GPUs_GlobalMemoryMb >= 20000) 
+requirements = (GPUs_GlobalMemoryMb >= 20000) && (GPUs_GlobalMemoryMb < 60000)
 # Hint: Use (CUDAGlobalMemoryMb > 5800) to match all GTX 1660 Super and GTX 1060
 # Example: (Use Workstation Pool, videocards with more then 5.8 GB but less then 16 GB VRAM and exclude all RTX 3090)
 #requirements = 
@@ -95,7 +95,7 @@ request_cpus = 8
 request_gpus = 1
 
 # required CPU RAM
-request_memory = 32 GB
+request_memory = 48 GB
 
 # required Disk space
 

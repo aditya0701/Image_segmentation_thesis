@@ -1,0 +1,27 @@
+######################################################################
+# nnUNet batch inference — all 4 datasets
+# Submit from nic: condor_submit nnunet_infer.sub
+######################################################################
+
+cmd        = /work/scratch/rawat/image-segmentation-thesis/Training_code/inference/nnunet_infer.sh
+args       =
+initialdir = /work/scratch/rawat
+
+output = /work/scratch/rawat/image-segmentation-thesis/logs_nnunet/infer_$(cluster).$(Process)_out.log
+error  = /work/scratch/rawat/image-segmentation-thesis/logs_nnunet/infer_$(cluster).$(Process)_err.log
+log    = /work/scratch/rawat/image-segmentation-thesis/logs_nnunet/infer_$(cluster).$(Process)_log.log
+
+getenv        = True
+on_exit_hold  = (ExitBySignal == True) || (ExitCode != 0)
+nice_user     = True
+
+request_cpus   = 4
+request_gpus   = 1
+request_memory = 16 GB
+request_disk   = 50 GB
+
+# Need sm_75+ (Turing or newer) — bw_env torch dropped Pascal (sm_61) support
+requirements = (GPUs_GlobalMemoryMb >= 8000) && (GPUs_GlobalMemoryMb < 60000) && (CUDACapability >= 7.5)
+rank         = memory
+
+queue

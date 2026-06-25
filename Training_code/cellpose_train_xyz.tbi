@@ -1,0 +1,32 @@
+######################################################################
+# cellpose_train_xyz.tbi — CellposeSAM training with XY+XZ+YZ slices
+#
+# Usage:
+#   condor_submit cellpose_train_xyz.tbi -a "args=all"
+#   condor_submit cellpose_train_xyz.tbi -a "args=dog"
+#   condor_submit cellpose_train_xyz.tbi -a "args=original"
+#   condor_submit cellpose_train_xyz.tbi -a "args=psf"
+######################################################################
+
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/run_cellpose_xyz.sh
+args         =
+initialdir   = /work/scratch/rawat
+
+output = /work/scratch/rawat/image-segmentation-thesis/logs_cellpose/loc_$(cluster).$(Process)_out.log
+error  = /work/scratch/rawat/image-segmentation-thesis/logs_cellpose/loc_$(cluster).$(Process)_err.log
+log    = /work/scratch/rawat/image-segmentation-thesis/logs_cellpose/loc_$(cluster).$(Process)_log.log
+
+getenv        = True
+on_exit_hold  = (ExitBySignal == True) || (ExitCode != 0)
+nice_user     = True
+
+request_cpus   = 8
+request_gpus   = 1
+request_memory = 64 GB
+request_disk   = 50 GB
+
+# XZ/YZ training generates ~3x more slices than XY-only → more RAM needed
+requirements  = (GPUs_GlobalMemoryMb >= 20000) && (GPUs_GlobalMemoryMb < 90000)
+rank          = memory
+
+queue

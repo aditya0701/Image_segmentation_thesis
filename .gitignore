@@ -33,6 +33,10 @@ data/processed/
 logs/
 *.log
 
+# Training log exports (regenerable via tools/export_logs_to_csv.py)
+training_logs_export/
+tools/training_logs.csv
+
 # OS
 .DS_Store
 Thumbs.db
