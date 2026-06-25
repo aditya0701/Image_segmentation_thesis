@@ -21,9 +21,9 @@ _args = _parser.parse_args()
 BATCH_SIZE = _args.batch_size
 
 DATASET_CONFIG = {
-    "all":      ("/home/students/rawat/training_data/training_data_All",      "vit_l_lm_neo_augmented_All_v3"),
-    "dog":      ("/home/students/rawat/training_data/training_data_DOG",      "vit_l_lm_neo_augmented_DOG_v3"),
-    "original": ("/home/students/rawat/training_data/training_data_Original", "vit_l_lm_neo_augmented_Original_v3"),
+    "all":      ("/home/students/rawat/training_data/training_data_All",      "vit_l_lm_neo_augmented_All_v5"),
+    "dog":      ("/home/students/rawat/training_data/training_data_DOG",      "vit_l_lm_neo_augmented_DOG_v4"),
+    "original": ("/home/students/rawat/training_data/training_data_Original", "vit_l_lm_neo_augmented_Original_v4"),
     "psf":      ("/home/students/rawat/training_data/training_data_PSF",      "vit_l_lm_neo_augmented_PSF_v3"),
 }
 

@@ -17,11 +17,11 @@ nice_user     = True
 
 request_cpus   = 4
 request_gpus   = 1
-request_memory = 32 GB
+request_memory = 16 GB
 request_disk   = 50 GB
 
 # Need sm_75+ (Turing or newer) — bw_env torch dropped Pascal (sm_61) support
-requirements = (GPUs_GlobalMemoryMb >= 24000) && (GPUs_GlobalMemoryMb < 60000)
+requirements = (GPUs_GlobalMemoryMb >= 8000) && (GPUs_GlobalMemoryMb < 60000) && (CUDACapability >= 7.5)
 rank         = memory
 
 queue

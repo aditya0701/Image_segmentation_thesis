@@ -30,7 +30,7 @@ RUNS = [
     },
 ]
 
-OUTPUT_BASE            = "/home/students/rawat/Results"
+OUTPUT_BASE            = "/home/students/rawat/Final_results/SwinUNETR"
 VALID_XY_SIZES         = {1100, 1101}
 BLOB_REMOVAL_THRESHOLD = 1450
 PATCH_SIZE             = (32, 192, 192)

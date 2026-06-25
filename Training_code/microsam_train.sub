@@ -3,7 +3,7 @@
 # Set args to: all | dog | original | psf
 ######################################################################
 
-cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/run.sh
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/run.sh
 args         = 
 initialdir   = /work/scratch/rawat
 
@@ -20,7 +20,7 @@ request_gpus  = 1
 request_memory = 64 GB
 request_disk  = 50 GB
 
-requirements  = (GPUs_GlobalMemoryMb >= 40000)
+requirements  = (GPUs_GlobalMemoryMb >= 40000) && (GPUs_GlobalMemoryMb < 90000) && (TARGET.Machine != "oppenheimer.lfb.rwth-aachen.de")
 rank          = memory
 
 queue

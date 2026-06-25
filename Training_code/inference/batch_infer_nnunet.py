@@ -37,7 +37,7 @@ RUNS = [
     },
 ]
 
-OUTPUT_BASE            = "/home/students/rawat/Results"
+OUTPUT_BASE            = "/home/students/rawat/Final_results/nnUNet"
 VALID_XY_SIZES         = {1100, 1101}
 BLOB_REMOVAL_THRESHOLD = 1450
 FOLD                   = 0

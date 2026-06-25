@@ -16,15 +16,16 @@ vram=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits)
 
 echo "GPU has $vram MB free memory."
 
-# Logic: If >32GB use Batch 4, If >20GB use Batch 2, Else Batch 1
-if [ "$vram" -gt 60000 ]; then
-    BATCH=2
-else
-    BATCH=1
-fi
+BATCH=1
 
 echo "Selected Batch Size: $BATCH"
 
+# $1 = dataset (all | dog | original | psf)
+DATASET=${1:-all}
+echo "Dataset: $DATASET"
+
 # 3. Run Python with the selected batch size
 # -u means unbuffered, so you see prints immediately
-python -u /work/scratch/rawat/image-segmentation-thesis/Training_code/training_cellpose3d.py
+/work/scratch/rawat/installations/conda/envs/thesis_microglomeruli/bin/python -u \
+    /work/scratch/rawat/image-segmentation-thesis/Training_code/training_microsam.py \
+    --batch_size $BATCH --dataset $DATASET

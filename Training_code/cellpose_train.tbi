@@ -12,7 +12,7 @@
 # so memory is passed as a separate numeric macro (mem=48 or mem=32).
 ######################################################################
 
-cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/run_cellpose.sh
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/run_cellpose.sh
 args         =
 mem          = 32
 initialdir   = /work/scratch/rawat

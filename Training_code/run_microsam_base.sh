@@ -9,11 +9,7 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 vram=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits)
 echo "GPU has $vram MB free memory."
 
-if [ "$vram" -gt 60000 ]; then
-    BATCH=2
-else
-    BATCH=1
-fi
+BATCH=1
 echo "Selected Batch Size: $BATCH"
 
 # $1 = dataset (all | dog | original | psf)
@@ -23,5 +19,5 @@ AUG_FLAG=${2:-}
 echo "Dataset: $DATASET | Aug flag: ${AUG_FLAG:-none}"
 
 /work/scratch/rawat/installations/conda/envs/thesis_microglomeruli/bin/python -u \
-    /work/scratch/rawat/image-segmentation-thesis/Training_code/training/train_microsam_base.py \
+    /work/scratch/rawat/image-segmentation-thesis/Training_code/train_microsam_base.py \
     --batch_size $BATCH --dataset $DATASET $AUG_FLAG

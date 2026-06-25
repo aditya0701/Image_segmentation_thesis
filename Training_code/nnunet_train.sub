@@ -20,7 +20,7 @@
 ######################################################################
 
 # Shell script that you want to execute
-cmd = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/nnunet_train.sh
+cmd = /work/scratch/rawat/image-segmentation-thesis/Training_code/nnunet_train.sh
 
 # command line arguments
 args =

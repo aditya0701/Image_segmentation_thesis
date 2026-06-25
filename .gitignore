@@ -33,13 +33,8 @@ data/processed/
 logs/
 *.log
 
-# Training log exports - keep small summary files (training_log_*.txt,
-# debug.json, summary.json, progress.png), drop the large raw artifacts
-# (regenerable from training runs / checkpoints)
-training_logs_export/**/events.out.tfevents*
-training_logs_export/**/*.npz
-training_logs_export/**/*.nii.gz
-training_logs_export/**/*.pkl
+# Training log exports (regenerable via tools/export_logs_to_csv.py)
+training_logs_export/
 tools/training_logs.csv
 
 # OS

@@ -22,4 +22,4 @@ FOLD=0
 
 # 3️⃣  Run Python with the selected config
 # -u means unbuffered, so you see prints immediately
-/work/scratch/rawat/installations/conda/envs/bw_env/bin/python -u /work/scratch/rawat/image-segmentation-thesis/Training_code/training/nnunet_training.py --config 3d_fullres --dataset $DATASET_ID --fold $FOLD
+/work/scratch/rawat/installations/conda/envs/bw_env/bin/python -u /work/scratch/rawat/image-segmentation-thesis/Training_code/nnunet_training.py --config 3d_fullres --dataset $DATASET_ID --fold $FOLD

@@ -27,8 +27,9 @@ CKPT_ROOT = "/work/scratch/rawat/models/microsam_training_output_final_v2/checkp
 RUNS = [
     # ── augmented ────────────────────────────────────────────────────────────
     {
-        "checkpoint":   f"{CKPT_ROOT}/vit_b_lm_neo_augmented_All_v1/best.pt",
+        "checkpoint":   f"{CKPT_ROOT}/vit_b_lm_neo_augmented_All_v2/best.pt",
         "input_folder": "/home/students/rawat/Final_dataset/all/test/images",
+        "output_name":  "vit_b_lm_neo_augmented_All_v2_batch1",
     },
     {
         "checkpoint":   f"{CKPT_ROOT}/vit_b_lm_neo_augmented_DOG_v1/best.pt",
@@ -61,7 +62,7 @@ RUNS = [
     },
 ]
 
-OUTPUT_BASE            = "/home/students/rawat/Results"
+OUTPUT_BASE            = "/home/students/rawat/Final_results/MicroSAM_Base"
 VALID_XY_SIZES         = {1100, 1101}
 BLOB_REMOVAL_THRESHOLD = 862
 TILE_SHAPE             = (896, 896)
@@ -97,6 +98,7 @@ if __name__ == "__main__":
         ckpt   = run["checkpoint"]
         folder = run["input_folder"]
         model_name = Path(ckpt).parent.name
+        output_name = run.get("output_name", model_name)
 
         print(f"\n{'='*60}")
         print(f"Model : {model_name}")
@@ -133,15 +135,10 @@ if __name__ == "__main__":
             print(f"  3D CC : {n_obj} objects")
 
             clean = remove_small_objects(labeled.astype(bool), min_size=BLOB_REMOVAL_THRESHOLD, connectivity=1)
-            _, clean = ndimage_label(clean, structure=structure)
-            clean, _ = ndimage_label(clean > 0, structure=structure)
-            for lbl in np.unique(clean)[1:]:
-                if np.any(clean == lbl, axis=(1, 2)).sum() <= 3:
-                    clean[clean == lbl] = 0
-            clean, n_final = ndimage_label(clean > 0, structure=structure)
-            print(f"  Final : {n_final} objects  (blob={BLOB_REMOVAL_THRESHOLD}, z-span>3)")
+            clean, n_final = ndimage_label(clean, structure=structure)
+            print(f"  Final : {n_final} objects  (blob={BLOB_REMOVAL_THRESHOLD})")
 
-            out_path = Path(OUTPUT_BASE) / model_name / f"{img_path.stem}_masks.tif"
+            out_path = Path(OUTPUT_BASE) / output_name / f"{img_path.stem}_masks.tif"
             os.makedirs(out_path.parent, exist_ok=True)
             dtype = np.uint32 if n_final > 65535 else np.uint16
             tifffile.imwrite(str(out_path), clean.astype(dtype))

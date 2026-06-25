@@ -24,15 +24,15 @@ class ChannelSafeIntensityAug:
 
 RUNS = [
     {
-        "checkpoint": "/work/scratch/rawat/models/microsam_training_output_final_v2/checkpoints/vit_l_lm_neo_augmented_All_v3/best.pt",
+        "checkpoint": "/work/scratch/rawat/models/microsam_training_output_final_v2/checkpoints/vit_l_lm_neo_augmented_All_v5/best.pt",
         "input_folder": "/home/students/rawat/Final_dataset/all/test/images",
     },
     {
-        "checkpoint": "/work/scratch/rawat/models/microsam_training_output_final_v2/checkpoints/vit_l_lm_neo_augmented_DOG_v3/best.pt",
+        "checkpoint": "/work/scratch/rawat/models/microsam_training_output_final_v2/checkpoints/vit_l_lm_neo_augmented_DOG_v4/best.pt",
         "input_folder": "/home/students/rawat/Final_dataset/DOG/test/images",
     },
     {
-        "checkpoint": "/work/scratch/rawat/models/microsam_training_output_final_v2/checkpoints/vit_l_lm_neo_augmented_Original_v3/best.pt",
+        "checkpoint": "/work/scratch/rawat/models/microsam_training_output_final_v2/checkpoints/vit_l_lm_neo_augmented_Original_v4/best.pt",
         "input_folder": "/home/students/rawat/Final_dataset/Original/test/images",
     },
     {
@@ -41,7 +41,7 @@ RUNS = [
     },
 ]
 
-OUTPUT_BASE            = "/home/students/rawat/Results"
+OUTPUT_BASE            = "/home/students/rawat/Final_results/MicroSAM_Large"
 VALID_XY_SIZES         = {1100, 1101}
 BLOB_REMOVAL_THRESHOLD = 862
 TILE_SHAPE             = (896, 896)
@@ -113,9 +113,7 @@ if __name__ == "__main__":
             print(f"  3D CC : {n_obj} objects")
 
             clean = remove_small_objects(labeled.astype(bool), min_size=BLOB_REMOVAL_THRESHOLD, connectivity=1)
-            # z-span filter: remove objects spanning ≤3 z-slices
-            _, clean = ndimage_label(clean, structure=structure)
-            clean, _ = ndimage_label(clean > 0, structure=structure)
+            clean, _ = ndimage_label(clean, structure=structure)
             for lbl in np.unique(clean)[1:]:
                 if np.any(clean == lbl, axis=(1, 2)).sum() <= 3:
                     clean[clean == lbl] = 0

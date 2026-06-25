@@ -9,7 +9,7 @@
 #   condor_submit swinunetr_train.tbi -a "args=psf"
 ######################################################################
 
-cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/run_swinunetr.sh
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/run_swinunetr.sh
 args         =
 initialdir   = /work/scratch/rawat
 

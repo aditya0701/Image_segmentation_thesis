@@ -29,7 +29,7 @@ RUNS = [
     },
 ]
 
-OUTPUT_BASE            = "/home/students/rawat/Results"
+OUTPUT_BASE            = "/home/students/rawat/Final_results/CellposeSAM"
 VALID_XY_SIZES         = {1100, 1101}
 BLOB_REMOVAL_THRESHOLD = 1450
 XY_VOXEL_UM            = 0.0709
@@ -106,10 +106,16 @@ if __name__ == "__main__":
             masks, _, _ = model.eval(
                 vol, do_3D=True, z_axis=0, channel_axis=3,
                 anisotropy=Z_VOXEL_UM / XY_VOXEL_UM,
-                diameter=DIAMETER, normalize=False, batch_size=1, tile=True,
+                diameter=DIAMETER, normalize=False, batch_size=1,
             )
-            clean = remove_small_objects(masks.astype(bool), min_size=BLOB_REMOVAL_THRESHOLD, connectivity=1)
-            clean, n_final = ndimage_label(clean, structure=structure)
+            # Keep Cellpose instance IDs — remove small instances by size, not by binarising
+            # (binarising + CC would merge touching boutons that Cellpose already separated)
+            clean = masks.copy()
+            for lbl in np.unique(masks)[1:]:
+                if (masks == lbl).sum() < BLOB_REMOVAL_THRESHOLD:
+                    clean[clean == lbl] = 0
+            # Relabel to consecutive IDs
+            clean, n_final = ndimage_label(clean > 0, structure=structure)
             print(f"  Raw   : {len(np.unique(masks)) - 1}  →  After blob removal: {n_final}")
 
             out_path = Path(OUTPUT_BASE) / model_name / f"{img_path.stem}_mask.tif"

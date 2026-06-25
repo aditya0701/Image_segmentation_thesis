@@ -18,5 +18,5 @@ DATASET=$1
 echo "Dataset: $DATASET"
 
 /work/scratch/rawat/installations/conda/envs/thesis_microglomeruli/bin/python -u \
-    /work/scratch/rawat/image-segmentation-thesis/Training_code/training/swinunetr_training.py \
+    /work/scratch/rawat/image-segmentation-thesis/Training_code/swinunetr_training.py \
     --dataset $DATASET

@@ -7,7 +7,7 @@
 #   condor_submit microsam_base_train.sub -a "args=all"
 ######################################################################
 
-cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/training/run_microsam_base.sh
+cmd          = /work/scratch/rawat/image-segmentation-thesis/Training_code/run_microsam_base.sh
 args         =
 initialdir   = /work/scratch/rawat
 

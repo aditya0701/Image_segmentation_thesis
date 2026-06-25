@@ -9,6 +9,11 @@ if [ -z "$SCRIPT" ]; then
     exit 1
 fi
 
+INFER_DIR="/work/scratch/rawat/image-segmentation-thesis/Training_code/inference"
+if [[ "$SCRIPT" != /* ]]; then
+    SCRIPT="$INFER_DIR/$SCRIPT"
+fi
+
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 vram=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null)
