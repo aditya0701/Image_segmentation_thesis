@@ -29,7 +29,7 @@ measured result.
 - Record all software and hardware versions. Never claim an unmeasured improvement.
 - Report it when INT8 hurts accuracy or speed. Say "on laptop CPU, GPU and NPU", never "edge device".
 - Calibration data only from training data, never test.
-- IoU threshold not decided yet (he checks the thesis at the end): always score 0.25 and 0.5.
+- IoU threshold decided 2026-10-07: 0.25 is the headline number. Still score 0.5 as a stricter check.
 
 ## Setup
 - Model: MicroSAM Base `vit_b_lm`, fine-tuned checkpoint MicroSAM_B_all. Image encoder only,
@@ -55,7 +55,9 @@ measured result.
 common.py (paths, pipeline, scoring, benchmark with power guard, swap_encoder, versions),
 stage0_env_check.py, check_imports.py, extract_weights.py, stage1_pytorch_baseline.py,
 stage2_onnx_export.py, make_calibration_set.py, stage3_ort_int8.py, stage5_openvino.py,
-stage5_power_analysis.py (HWiNFO CSV), stage5_gpu_int8_debug.py, stage5_gpu_profile.py.
+stage5_power_analysis.py (HWiNFO CSV), stage5_gpu_int8_debug.py, stage5_gpu_profile.py,
+stage4_export_check_tiles.py (5 real tiles + FP32 reference for Colab), stage4_tensorrt_colab.ipynb
+(clean Colab notebook; stage4_session_log.ipynb is the raw session). Docs: WRITEUP.md, CLAIMS.md.
 
 ## Results so far (encoder latency = median, batch 1)
 - Stage 1, PyTorch FP32 CPU: 5,605 ms (p10 5,179, p90 6,155), 359 MB, peak 3.7 GB encoder /
@@ -80,12 +82,17 @@ stage5_power_analysis.py (HWiNFO CSV), stage5_gpu_int8_debug.py, stage5_gpu_prof
     driver update. Documented as a failure (watchdog/TDR hypothesis untested).
   - Session 1 and 2 raw files archived in results/stage5_session1/ and stage5_session2/.
 
+- Stage 4, TensorRT 11.3 on Colab T4 (GPU execution only, ratios within the T4 only):
+  FP32 314.5 ms, FP16 108.3 ms (2.90x, cos 0.99998), INT8 98.7 ms (3.18x, 1.10x vs FP16, cos 0.984).
+  TensorRT 11 has no FP16/INT8 flags (strongly typed only). FP16 = onnxconverter-common conversion.
+  INT8 needs a symmetric QDQ model with float biases: `stage3_ort_int8.py quantize --variant trt_matmul`
+  (the old static_matmul model was rejected: Int32 bias DQ, non-zero zero points). ModelOpt AutoCast ran
+  out of RAM on Colab. No detections scored for TensorRT engines (cosine on 5 tiles only).
+
 ## Next steps
-1. Commit the uncommitted Stage 5 results (ask first; he pushes).
-2. Stage 4, TensorRT on Colab T4: notebook for FP16 and INT8 engines, trtexec, Polygraphy.
-   He uploads to Google Drive: dynamo ONNX + .onnx.data, static_matmul QDQ ONNX, calib_tiles.npy
-   (optional: best_weights_only.pt, test data). Open question: is the GitHub repo public or private?
-3. Stage 6: one-page write-up with a results table, plus CLAIMS.md (what may and may not be claimed).
-4. Optional: NPU watchdog tests, OpenVINO bug report for the ONNX-route GPU INT8 failure,
+1. Optional T4 experiment: INT8 + FP16 mixed engine (non-INT8 layers are FP32 now; hypothesis for the
+   small INT8 gain). Optional: TensorRT engine inside the full pipeline for TP/FP/FN.
+2. Keep WRITEUP.md and CLAIMS.md in step with any new result.
+3. Optional: NPU watchdog tests, OpenVINO bug report for the ONNX-route GPU INT8 failure,
    Percentile/Entropy calibration, later a C++ inference program (he codes) and use of the
-   optimised encoder in his napari bouton viewer app.
+   optimised encoder in his napari bouton viewer.
