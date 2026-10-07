@@ -1,0 +1,8 @@
+INFO:nncf:Statistics of the bitwidth distribution:
++---------------------------+-----------------------------+----------------------------------------+
+| Weight compression mode   | % all parameters (layers)   | % ratio-defining parameters (layers)   |
++===========================+=============================+========================================+
+| int8_asym, per-channel    | 100% (51 / 51)              | 100% (51 / 51)                         |
++---------------------------+-----------------------------+----------------------------------------+
+Applying Weight Compression -------------------------- 100% • 0:00:05 • 0:00:00
+weights-only INT8 GPU compile: OK  COMPILED in 3.9 s

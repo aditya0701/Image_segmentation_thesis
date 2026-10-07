@@ -82,3 +82,10 @@ Idle window saved.
 === 21:00:34 END eval --device GPU --variant int8_nncf_direct exit=0
 === SESSION 2 DONE
 === 11:47:52 FC-ONLY EXPERIMENT START
+=== 12:12:04 fc_only onnx exit=0
+=== 12:35:08 fc_only direct exit=0
+=== 12:35:32 weights_only exit=0
+=== 12:35:45 check GPU int8_fc_onnx exit=0
+=== 12:37:12 check GPU int8_fc_direct exit=0
+=== 12:38:07 check GPU int8_weights exit=0
+=== FC-ONLY PREP DONE

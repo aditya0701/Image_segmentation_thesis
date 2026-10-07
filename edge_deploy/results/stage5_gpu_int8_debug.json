@@ -21,5 +21,19 @@
     "gpu_message": "COMPILED in 8.1 s",
     "cpu_compiled": true,
     "cpu_message": "COMPILED in 2.0 s"
+  },
+  "fc_only_onnx": {
+    "ignored_attention_matmuls": 24,
+    "gpu_compiled": false,
+    "gpu_message": "RuntimeError: Exception from src\\inference\\src\\cpp\\core.cpp:135:"
+  },
+  "fc_only_direct": {
+    "ignored_attention_matmuls": 24,
+    "gpu_compiled": true,
+    "gpu_message": "COMPILED in 15.4 s"
+  },
+  "weights_only_int8": {
+    "gpu_compiled": true,
+    "gpu_message": "COMPILED in 3.9 s"
   }
 }

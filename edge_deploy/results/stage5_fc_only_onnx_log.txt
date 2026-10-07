@@ -26,3 +26,6 @@ INFO:nncf:Not adding activation input quantizer for operation: 582 node_matmul_2
 INFO:nncf:Not adding activation input quantizer for operation: 583 node_matmul_21
 INFO:nncf:Not adding activation input quantizer for operation: 557 node_matmul_22
 INFO:nncf:Not adding activation input quantizer for operation: 558 node_matmul_23
+Statistics collection -------------------------- 100% 57/57 • 0:11:24 • 0:00:00
+Applying Fast Bias correction ------------------ 100% 49/49 • 0:00:13 • 0:00:00
+[onnx] GPU compile: FAILED  RuntimeError: Exception from src\inference\src\cpp\core.cpp:135:

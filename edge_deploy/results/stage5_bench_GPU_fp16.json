@@ -1,13 +1,13 @@
 {
-  "median_ms": 244.1,
-  "p10_ms": 239.8,
-  "p90_ms": 252.3,
-  "min_ms": 239.5,
-  "max_ms": 257.4,
+  "median_ms": 240.9,
+  "p10_ms": 238.8,
+  "p90_ms": 251.5,
+  "min_ms": 237.9,
+  "max_ms": 254.2,
   "runs": 30,
   "warmup": 10,
-  "compile_s": 1.1,
-  "peak_mem_mb": 1747,
+  "compile_s": 6.0,
+  "peak_mem_mb": 1752,
   "compute_precision": "f16",
   "power": "AC, Best performance"
 }
