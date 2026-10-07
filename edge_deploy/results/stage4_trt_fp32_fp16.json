@@ -1,0 +1,34 @@
+{
+  "fp32": {
+    "median_ms": 314.45,
+    "p10_ms": 308.86,
+    "p90_ms": 318.94,
+    "runs": 30,
+    "warmup": 10,
+    "plan_MB": 370.3,
+    "n_layers": 203,
+    "layers_with_half": 0,
+    "out_dtype": "torch.float32",
+    "build_s": 29.3,
+    "clocks_after": "1500 MHz, 1590 MHz, 65, 40.64 W"
+  },
+  "fp16": {
+    "median_ms": 108.26,
+    "p10_ms": 106.69,
+    "p90_ms": 109.29,
+    "runs": 30,
+    "warmup": 10,
+    "plan_MB": 199.5,
+    "n_layers": 228,
+    "layers_with_half": 226,
+    "out_dtype": "torch.float32",
+    "build_s": 41.8,
+    "clocks_after": "1575 MHz, 1590 MHz, 64, 36.66 W"
+  },
+  "sanity_cosine_fp16_vs_fp32_random_input": 1.000023365020752,
+  "versions": {
+    "tensorrt": "11.3.0.99",
+    "torch": "2.11.0+cu130",
+    "gpu": "Tesla T4"
+  }
+}

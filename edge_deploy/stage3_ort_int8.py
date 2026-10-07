@@ -42,12 +42,17 @@ sys.stderr.reconfigure(encoding="utf-8")
 FP32_PATH = onnx_path("dynamo")
 PREP_PATH = common.MODELS_DIR / "sam_vitb_encoder_fp32_prep.onnx"
 CALIB_RANGES = common.RESULTS_DIR / "stage3_static_calibration_ranges.json"
-VARIANTS = ("dynamic", "static", "static_matmul")
+VARIANTS = ("dynamic", "static", "static_matmul", "trt_matmul")
 
 # static_matmul: quantize only the compute-heavy ops. LayerNorm, Softmax, GELU, the
 # residual Adds and Einsum stay FP32, because rounding errors there accumulate
 # across the 12 transformer blocks (full static had cosine 0.989 vs 0.9996 dynamic).
 MATMUL_OPS = ["MatMul", "Gemm", "Conv"]
+
+# trt_matmul: same as static_matmul, but in the form TensorRT accepts (Stage 4). TensorRT
+# rejects non-zero zero points ("shiftIsAllZeros") and Int32 bias DequantizeLinear nodes,
+# so activations and weights are symmetric and the biases stay float.
+TRT_EXTRA_OPTIONS = {"ActivationSymmetric": True, "WeightSymmetric": True, "QuantizeBias": False}
 VERSIONS = ("onnx", "onnxruntime")
 
 
@@ -93,7 +98,8 @@ def quantize(variant):
         reader = TileReader()
         quantize_static(
             str(PREP_PATH), str(out), reader,
-            op_types_to_quantize=MATMUL_OPS if variant == "static_matmul" else None,
+            op_types_to_quantize=MATMUL_OPS if variant in ("static_matmul", "trt_matmul") else None,
+            extra_options=TRT_EXTRA_OPTIONS if variant == "trt_matmul" else None,
             quant_format=QuantFormat.QDQ,
             activation_type=QuantType.QInt8, weight_type=QuantType.QInt8,
             per_channel=True, calibrate_method=CalibrationMethod.MinMax,
