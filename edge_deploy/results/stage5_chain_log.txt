@@ -1,0 +1,84 @@
+=== 11:09:42 START convert
+=== 11:09:47 END convert exit=0
+=== 11:09:47 START quantize
+=== 11:20:21 END quantize exit=0
+=== 11:20:21 START check --device CPU --variant fp32
+=== 11:21:29 END check --device CPU --variant fp32 exit=0
+=== 11:21:29 START check --device CPU --variant fp16
+=== 11:22:27 END check --device CPU --variant fp16 exit=0
+=== 11:22:27 START check --device CPU --variant int8_nncf
+=== 11:23:14 END check --device CPU --variant int8_nncf exit=0
+=== 11:23:14 START check --device CPU --variant int8_qdq
+=== 11:24:09 END check --device CPU --variant int8_qdq exit=0
+=== 11:24:09 START check --device GPU --variant fp32
+=== 11:24:54 END check --device GPU --variant fp32 exit=0
+=== 11:24:54 START check --device GPU --variant fp16
+=== 11:25:35 END check --device GPU --variant fp16 exit=0
+=== 11:25:35 START check --device GPU --variant int8_nncf
+=== 11:25:46 END check --device GPU --variant int8_nncf exit=0
+=== 11:25:46 START check --device GPU --variant int8_qdq
+=== 11:26:41 END check --device GPU --variant int8_qdq exit=0
+=== 11:26:41 START check --device NPU --variant fp32
+=== 11:29:09 END check --device NPU --variant fp32 exit=1
+=== 11:29:09 START check --device NPU --variant fp16
+=== 11:31:30 END check --device NPU --variant fp16 exit=1
+=== 11:31:30 START check --device NPU --variant int8_nncf
+=== 11:33:37 END check --device NPU --variant int8_nncf exit=1
+=== 11:33:37 START check --device NPU --variant int8_qdq
+=== 11:35:56 END check --device NPU --variant int8_qdq exit=1
+=== PREP DONE
+=== 12:41:53 DRIVERS UPDATED: GPU 32.0.101.8626, NPU 32.0.100.5540
+=== 12:41:53 START check --device GPU --variant int8_nncf
+=== 12:42:08 END check --device GPU --variant int8_nncf exit=0
+=== 12:42:08 START check --device NPU --variant fp16
+=== 12:44:23 END check --device NPU --variant fp16 exit=1
+=== 12:44:23 START check --device NPU --variant fp32
+=== 12:46:42 END check --device NPU --variant fp32 exit=1
+=== 12:46:42 START check --device NPU --variant int8_nncf
+=== 12:48:44 END check --device NPU --variant int8_nncf exit=1
+=== 12:48:44 START check --device NPU --variant int8_qdq
+=== 12:50:47 END check --device NPU --variant int8_qdq exit=1
+=== RETRY DONE
+=== 12:53:45 BENCHMARKS START
+=== 12:53:45 START idle
+=== 12:54:47 END idle exit=0
+=== 12:55:17 START bench --device CPU --variant fp32
+=== 12:58:52 END bench --device CPU --variant fp32 exit=0
+=== 12:59:22 START bench --device CPU --variant fp16
+=== 13:02:54 END bench --device CPU --variant fp16 exit=0
+=== 13:03:24 START bench --device CPU --variant int8_nncf
+=== 13:05:39 END bench --device CPU --variant int8_nncf exit=0
+=== 13:06:09 START bench --device CPU --variant int8_qdq
+=== 13:08:51 END bench --device CPU --variant int8_qdq exit=0
+=== 13:09:21 START bench --device GPU --variant fp32
+=== 13:10:53 END bench --device GPU --variant fp32 exit=0
+=== 13:11:23 START bench --device GPU --variant fp16
+=== 13:12:38 END bench --device GPU --variant fp16 exit=0
+=== 13:13:08 START bench --device GPU --variant int8_qdq
+=== 13:14:45 END bench --device GPU --variant int8_qdq exit=0
+Idle baseline: 60 s, keep the laptop untouched...
+Idle window saved.
+=== 13:16:18 BENCHMARKS DONE
+=== 13:16:18 START eval --device GPU --variant fp16
+=== 13:54:25 END eval --device GPU --variant fp16 exit=0
+=== 13:54:25 START eval --device CPU --variant int8_nncf
+=== 14:47:38 END eval --device CPU --variant int8_nncf exit=0
+=== 14:47:38 START eval --device GPU --variant int8_qdq
+=== 15:28:38 END eval --device GPU --variant int8_qdq exit=0
+=== EVALS DONE
+=== 20:09:17 SESSION 2 START (log microsam_test_log_1.CSV)
+=== 20:09:17 START idle --idle-key idle_start
+=== 20:10:20 END idle --idle-key idle_start exit=0
+=== 20:10:50 START bench --device GPU --variant fp16
+=== 20:12:04 END bench --device GPU --variant fp16 exit=0
+=== 20:12:34 START bench --device GPU --variant int8_nncf_direct
+=== 20:14:05 END bench --device GPU --variant int8_nncf_direct exit=0
+=== 20:14:35 START bench --device CPU --variant int8_nncf_direct
+=== 20:17:23 END bench --device CPU --variant int8_nncf_direct exit=0
+=== 20:17:53 START idle --idle-key idle_end
+=== 20:18:56 END idle --idle-key idle_end exit=0
+=== 20:18:56 SESSION 2 BENCHMARKS DONE
+=== 20:18:58 START eval --device GPU --variant int8_nncf_direct
+=== 21:00:34 END eval --device GPU --variant int8_nncf_direct exit=0
+=== SESSION 2 DONE
+=== 11:47:52 FC-ONLY EXPERIMENT START

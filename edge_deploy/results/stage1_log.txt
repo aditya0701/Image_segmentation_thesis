@@ -1,0 +1,12 @@
+torch 2.13.0, threads=8, power: AC, Best performance
+Encoder parameters: 89.7 M
+Encoder output shape: (1, 256, 64, 64)
+Encoder latency: {'median_ms': 5605.3, 'p10_ms': 5179.2, 'p90_ms': 6155.2, 'min_ms': 4926.1, 'max_ms': 6183.9, 'runs': 30, 'warmup': 10}
+Peak process memory after encoder benchmark: 3665 MB
+Running full pipeline on test volumes...
+  Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif: 21 objects, 2925 s
+  PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif: 23 objects, 3016 s
+IoU >= 0.25: {'n_gt': 33, 'TP': 32, 'FP': 12, 'FN': 1, 'recall': 0.9697, 'mIoU': 0.7537}
+IoU >= 0.5: {'n_gt': 33, 'TP': 30, 'FP': 14, 'FN': 3, 'recall': 0.9091, 'mIoU': 0.7766}
+Results appended to D:\Personal_Projects\Image_segmentation_thesis\edge_deploy\results\results.csv
+exit=0

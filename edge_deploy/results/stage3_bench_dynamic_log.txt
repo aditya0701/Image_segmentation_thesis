@@ -1,0 +1,2 @@
+[dynamic] latency: {'median_ms': 2079.0, 'p10_ms': 2009.1, 'p90_ms': 2566.4, 'min_ms': 1991.2, 'max_ms': 3062.0, 'runs': 30, 'warmup': 10}
+Peak process memory: 6677 MB, power: AC, Best performance

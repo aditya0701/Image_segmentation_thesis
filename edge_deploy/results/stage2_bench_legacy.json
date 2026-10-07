@@ -1,0 +1,11 @@
+{
+  "median_ms": 4243.1,
+  "p10_ms": 3806.8,
+  "p90_ms": 4608.1,
+  "min_ms": 3713.9,
+  "max_ms": 5385.9,
+  "runs": 30,
+  "warmup": 10,
+  "peak_mem_mb": 6954,
+  "power": "AC, Best performance"
+}

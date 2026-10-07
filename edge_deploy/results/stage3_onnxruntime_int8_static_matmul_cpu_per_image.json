@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "image": "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif",
+      "iou_threshold": 0.25,
+      "n_gt": 19,
+      "n_pred": 21,
+      "count_error": 0.1053,
+      "TP": 18,
+      "FP": 3,
+      "FN": 1,
+      "Precision": 0.8571,
+      "Recall": 0.9474,
+      "F1": 0.9,
+      "mean_iou_matched": 0.7637,
+      "PQ": 0.6874,
+      "mean_vol_error": 0.1744
+    },
+    {
+      "image": "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif",
+      "iou_threshold": 0.5,
+      "n_gt": 19,
+      "n_pred": 21,
+      "count_error": 0.1053,
+      "TP": 17,
+      "FP": 4,
+      "FN": 2,
+      "Precision": 0.8095,
+      "Recall": 0.8947,
+      "F1": 0.85,
+      "mean_iou_matched": 0.7873,
+      "PQ": 0.6692,
+      "mean_vol_error": 0.1479
+    },
+    {
+      "image": "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif",
+      "iou_threshold": 0.25,
+      "n_gt": 14,
+      "n_pred": 21,
+      "count_error": 0.5,
+      "TP": 14,
+      "FP": 7,
+      "FN": 0,
+      "Precision": 0.6667,
+      "Recall": 1.0,
+      "F1": 0.8,
+      "mean_iou_matched": 0.7457,
+      "PQ": 0.5965,
+      "mean_vol_error": 0.1345
+    },
+    {
+      "image": "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif",
+      "iou_threshold": 0.5,
+      "n_gt": 14,
+      "n_pred": 21,
+      "count_error": 0.5,
+      "TP": 14,
+      "FP": 7,
+      "FN": 0,
+      "Precision": 0.6667,
+      "Recall": 1.0,
+      "F1": 0.8,
+      "mean_iou_matched": 0.7457,
+      "PQ": 0.5965,
+      "mean_vol_error": 0.1345
+    }
+  ],
+  "seconds_per_volume": {
+    "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif": 1672.1721572997048,
+    "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif": 1809.2593847997487
+  }
+}

@@ -1,0 +1,1 @@
+[GPU fp16] median 244.1 ms (p10 239.8, p90 252.3), compile 1.1 s, peak mem 1747 MB

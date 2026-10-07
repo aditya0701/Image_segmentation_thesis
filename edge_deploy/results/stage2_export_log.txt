@@ -1,0 +1,29 @@
+[torch.onnx] Obtain model graph for `ImageEncoderViT([...]` with `torch.export.export(..., strict=False)`...
+[torch.onnx] dynamo exporter failed: UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 96: character maps to <undefined>
+Falling back to TorchScript exporter.
+D:\Personal_Projects\Image_segmentation_thesis\edge_deploy\stage2_onnx_export.py:58: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(encoder, (example,), str(ONNX_PATH), dynamo=False, opset_version=17,
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:258: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if pad_h > 0 or pad_w > 0:
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:304: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  max_rel_dist = int(2 * max(q_size, k_size) - 1)
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:304: TracerWarning: Converting a tensor to a Python integer might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  max_rel_dist = int(2 * max(q_size, k_size) - 1)
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:306: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if rel_pos.shape[0] != max_rel_dist:
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:318: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  q_coords = torch.arange(q_size)[:, None] * max(k_size / q_size, 1.0)
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:319: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  k_coords = torch.arange(k_size)[None, :] * max(q_size / k_size, 1.0)
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:320: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  relative_coords = (q_coords - k_coords) + (k_size - 1) * max(q_size / k_size, 1.0)
+D:\my_envs\sam-edge\Lib\site-packages\segment_anything\modeling\image_encoder.py:287: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if Hp > H or Wp > W:
+Exported with TorchScript (legacy): D:\Thesis\edge_results\models\sam_vitb_encoder_fp32.onnx (359 MB), opset 17
+3219 nodes, 28 op types: ['Add', 'Cast', 'Concat', 'Constant', 'ConstantOfShape', 'Conv', 'Div', 'Einsum', 'Erf', 'Gather', 'LayerNormalization', 'MatMul', 'Mod', 'Mul', 'Pad', 'Pow', 'Range', 'ReduceMean', 'Reshape', 'Shape', 'Slice', 'Softmax', 'Split', 'Sqrt', 'Squeeze', 'Sub', 'Transpose', 'Unsqueeze']
+tile 0: max|diff| 6.35e-06, mean|diff| 1.35e-07, cosine 1.00000000 (output range up to 0.85)
+tile 1: max|diff| 2.50e-06, mean|diff| 7.15e-08, cosine 1.00000000 (output range up to 0.78)
+tile 2: max|diff| 5.48e-06, mean|diff| 8.19e-08, cosine 1.00000000 (output range up to 0.85)
+tile 3: max|diff| 2.99e-06, mean|diff| 8.85e-08, cosine 1.00000000 (output range up to 0.88)
+tile 4: max|diff| 5.30e-06, mean|diff| 1.12e-07, cosine 1.00000000 (output range up to 0.79)
+Worst case over tiles: max|diff| 6.35e-06, min cosine 1.00000000

@@ -1,0 +1,6 @@
+  tile 0: max|diff| 0.0408, mean|diff| 0.00149, cosine 0.99982
+  tile 1: max|diff| 0.0294, mean|diff| 0.00133, cosine 0.99986
+  tile 2: max|diff| 0.0375, mean|diff| 0.00133, cosine 0.99986
+  tile 3: max|diff| 0.0563, mean|diff| 0.00131, cosine 0.99987
+  tile 4: max|diff| 0.0326, mean|diff| 0.00153, cosine 0.99982
+[CPU int8_nncf_direct] compile 1.9 s, worst cosine 0.99982

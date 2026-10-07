@@ -1,0 +1,28 @@
+[onnx] excluding 24 attention MatMuls from quantization
+Statistics collection -------------------------- 100% 57/57 • 0:11:37 • 0:00:00
+Applying Smooth Quant -------------------------- 100% 48/48 • 0:00:01 • 0:00:00
+INFO:nncf:24 ignored nodes were found by names in the NNCFGraph
+INFO:nncf:Not adding activation input quantizer for operation: 144 node_matmul
+INFO:nncf:Not adding activation input quantizer for operation: 145 node_matmul_1
+INFO:nncf:Not adding activation input quantizer for operation: 193 node_matmul_2
+INFO:nncf:Not adding activation input quantizer for operation: 194 node_matmul_3
+INFO:nncf:Not adding activation input quantizer for operation: 151 node_matmul_4
+INFO:nncf:Not adding activation input quantizer for operation: 152 node_matmul_5
+INFO:nncf:Not adding activation input quantizer for operation: 287 node_matmul_6
+INFO:nncf:Not adding activation input quantizer for operation: 288 node_matmul_7
+INFO:nncf:Not adding activation input quantizer for operation: 341 node_matmul_8
+INFO:nncf:Not adding activation input quantizer for operation: 342 node_matmul_9
+INFO:nncf:Not adding activation input quantizer for operation: 294 node_matmul_10
+INFO:nncf:Not adding activation input quantizer for operation: 295 node_matmul_11
+INFO:nncf:Not adding activation input quantizer for operation: 435 node_matmul_12
+INFO:nncf:Not adding activation input quantizer for operation: 436 node_matmul_13
+INFO:nncf:Not adding activation input quantizer for operation: 480 node_matmul_14
+INFO:nncf:Not adding activation input quantizer for operation: 481 node_matmul_15
+INFO:nncf:Not adding activation input quantizer for operation: 442 node_matmul_16
+INFO:nncf:Not adding activation input quantizer for operation: 443 node_matmul_17
+INFO:nncf:Not adding activation input quantizer for operation: 550 node_matmul_18
+INFO:nncf:Not adding activation input quantizer for operation: 551 node_matmul_19
+INFO:nncf:Not adding activation input quantizer for operation: 582 node_matmul_20
+INFO:nncf:Not adding activation input quantizer for operation: 583 node_matmul_21
+INFO:nncf:Not adding activation input quantizer for operation: 557 node_matmul_22
+INFO:nncf:Not adding activation input quantizer for operation: 558 node_matmul_23

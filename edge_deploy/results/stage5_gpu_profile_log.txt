@@ -1,0 +1,54 @@
+
+=== GPU fp16: 246.2 ms summed over executed layers
+  Add                              66.4 ms   27.0%
+  MatMul                           60.1 ms   24.4%
+  Softmax                          34.5 ms   14.0%
+  FullyConnected                   32.9 ms   13.4%
+  Transpose                        20.8 ms    8.5%
+  Permute                           9.8 ms    4.0%
+  Multiply                          6.5 ms    2.6%
+  Crop                              4.7 ms    1.9%
+  MVN                               3.3 ms    1.3%
+  VariadicSplit                     2.5 ms    1.0%
+  Pad                               1.9 ms    0.8%
+  Convolution                       1.0 ms    0.4%
+  -- top kernels (node type | kernel):
+      66.4 ms  Add                    | generic_eltwise_ref__f16
+      60.1 ms  MatMul                 | jit:gemm:any__f16
+      34.5 ms  Softmax                | softmax_gpu_bf__f16
+      32.9 ms  FullyConnected         | jit:gemm:any__f16
+      20.2 ms  Transpose              | permute_ref__f16
+       9.8 ms  Permute                | permute_f_y_axes__f16
+       6.5 ms  Multiply               | generic_eltwise_ref__f16
+       4.7 ms  Crop                   | generic_eltwise_ref__f16
+       3.1 ms  MVN                    | mvn_gpu_bfyx_opt__f16
+       2.5 ms  VariadicSplit          | generic_eltwise_ref__f16
+       1.9 ms  Pad                    | border_gpu_ref__f16
+       1.0 ms  Convolution            | jit:ir__f16
+
+=== GPU int8_nncf_direct: 540.9 ms summed over executed layers
+  Add                             137.0 ms   25.3%
+  MatMul                          130.5 ms   24.1%
+  Multiply                        117.0 ms   21.6%
+  Softmax                          39.9 ms    7.4%
+  Gemm                             36.2 ms    6.7%
+  Transpose                        24.2 ms    4.5%
+  FullyConnected                   21.4 ms    4.0%
+  FakeQuantize                      9.1 ms    1.7%
+  Split                             6.5 ms    1.2%
+  Crop                              6.2 ms    1.1%
+  MVN                               5.1 ms    0.9%
+  StridedSlice                      2.5 ms    0.5%
+  -- top kernels (node type | kernel):
+     136.3 ms  Add                    | generic_eltwise_ref__f32
+     130.5 ms  MatMul                 | undef
+     103.2 ms  Multiply               | generic_eltwise_ref__f32
+      39.9 ms  Softmax                | softmax_gpu_bf__f16
+      36.2 ms  Gemm                   | jit:gemm:any__f16
+      22.8 ms  Transpose              | permute_ref__f16
+      17.6 ms  FullyConnected         | jit:gemm:any__u8
+      13.8 ms  Multiply               | generic_eltwise_ref__f16
+       8.6 ms  FakeQuantize           | quantize_gpu_scale_shift_opt__i8
+       6.5 ms  Split                  | generic_eltwise_ref__f16
+       6.2 ms  Crop                   | generic_eltwise_ref__f16
+       3.8 ms  FullyConnected         | jit:gemm:any__i8

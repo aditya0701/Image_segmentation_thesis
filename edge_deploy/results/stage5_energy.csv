@@ -1,0 +1,4 @@
+device,variant,inferences,samples,ms_per_inference,package_W,ia_cores_W,igpu_W,system_W,J_per_inference,J_above_idle
+GPU,fp16,230,30,262,21.25,3.22,7.97,30.81,5.56,3.79
+GPU,int8_nncf_direct,88,30,686,17.52,2.63,5.88,27.2,12.02,7.36
+CPU,int8_nncf_direct,25,31,2448,16.95,9.76,0.0,26.2,41.48,24.85

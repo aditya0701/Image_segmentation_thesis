@@ -1,0 +1,19 @@
+  tile 0: max|diff| 0.0791, mean|diff| 0.00152, cosine 0.99976
+  tile 1: max|diff| 0.861, mean|diff| 0.0127, cosine 0.98256
+Traceback (most recent call last):
+  File "D:\Personal_Projects\Image_segmentation_thesis\edge_deploy\stage5_openvino.py", line 207, in <module>
+    {"check": check, "bench": bench, "eval": evaluate}[args.mode](args.device, args.variant)
+  File "D:\Personal_Projects\Image_segmentation_thesis\edge_deploy\stage5_openvino.py", line 124, in check
+    out = compiled(x.numpy())[0]
+          ^^^^^^^^^^^^^^^^^^^
+  File "D:\my_envs\sam-edge\Lib\site-packages\openvino\_ov_api.py", line 470, in __call__
+    return self._infer_request.infer(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\my_envs\sam-edge\Lib\site-packages\openvino\_ov_api.py", line 202, in infer
+    return OVDict(super().infer(_data_dispatch(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Exception from src\inference\src\cpp\infer_request.cpp:224:
+Exception from src\plugins\intel_npu\src\utils\src\zero\zero_wrappers.cpp:354:
+L0 zeCommandQueueExecuteCommandLists result: ZE_RESULT_ERROR_DEVICE_LOST, code 0x70000001 - device hung, reset, was removed, or driver update occurred
+
+

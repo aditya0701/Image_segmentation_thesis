@@ -1,0 +1,31 @@
+RuntimeError: Exception from src\inference\src\cpp\core.cpp:135:
+Exception from src\inference\src\dev\plugin.cpp:59:
+Check 'false' failed at src\plugins\intel_gpu\src\plugin\program_builder.cpp:168:
+[GPU] ProgramBuilder build failed!
+Exception from src\plugins\intel_gpu\src\runtime\ocl\ocl_kernel_builder.hpp:73:
+[GPU] clBuildProgram, error code: -11 CL_BUILD_PROGRAM_FAILURE
+
+
+
+
+
+Traceback (most recent call last):
+  File "D:\Personal_Projects\Image_segmentation_thesis\edge_deploy\stage5_openvino.py", line 116, in check
+    compiled, compile_s = compile_model(device, variant)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Personal_Projects\Image_segmentation_thesis\edge_deploy\stage5_openvino.py", line 82, in compile_model
+    compiled = core.compile_model(str(model_file(variant)), device, config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\my_envs\sam-edge\Lib\site-packages\openvino\_ov_api.py", line 646, in compile_model
+    super().compile_model(model, device_name, {} if config is None else config),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Exception from src\inference\src\cpp\core.cpp:135:
+Exception from src\inference\src\dev\plugin.cpp:59:
+Check 'false' failed at src\plugins\intel_gpu\src\plugin\program_builder.cpp:168:
+[GPU] ProgramBuilder build failed!
+Exception from src\plugins\intel_gpu\src\runtime\ocl\ocl_kernel_builder.hpp:73:
+[GPU] clBuildProgram, error code: -11 CL_BUILD_PROGRAM_FAILURE
+
+
+
+

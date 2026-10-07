@@ -1,0 +1,6 @@
+  tile 0: max|diff| 0.000776, mean|diff| 2e-05, cosine 1.00000
+  tile 1: max|diff| 0.000256, mean|diff| 1.91e-05, cosine 1.00000
+  tile 2: max|diff| 0.00041, mean|diff| 1.93e-05, cosine 1.00000
+  tile 3: max|diff| 0.00032, mean|diff| 1.96e-05, cosine 1.00000
+  tile 4: max|diff| 0.000441, mean|diff| 2.06e-05, cosine 1.00000
+[CPU fp16] compile 0.7 s, worst cosine 1.00000

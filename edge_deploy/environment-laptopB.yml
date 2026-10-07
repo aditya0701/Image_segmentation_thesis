@@ -1,0 +1,34 @@
+# Proposed clean environment for Laptop B (Intel Core Ultra 7 258V, Windows 11).
+# CPU-only PyTorch: this machine has no NVIDIA GPU. Intel GPU and NPU are used
+# through OpenVINO, not through PyTorch.
+#
+# micro_sam comes from conda-forge because its dependencies (vigra, nifty,
+# python-elf) are not reliably installable with pip on Windows.
+#
+# Create:  mamba env create -p D:/my_envs/sam-edge -f edge_deploy/environment-laptopB.yml
+# Lock:    conda list -p D:/my_envs/sam-edge --explicit > edge_deploy/results/conda-lock-laptopB.txt
+#          (pip versions are also recorded by stage0_env_check.py)
+name: sam-edge
+channels:
+  - conda-forge
+  - nodefaults         # never mix in the Anaconda defaults channel
+dependencies:
+  - python=3.11
+  - micro_sam>=1.8     # without a minimum the solver picked 1.0.1 built for numpy 1
+  - pytorch            # conda-forge CPU build
+  - torchvision
+  - numpy>=2           # pip packages (onnx) pull numpy 2, so conda packages must match
+  - scipy
+  - scikit-image
+  - tifffile
+  - pandas
+  - tqdm
+  - psutil             # peak memory measurement
+  - pip
+  - pip:
+      - onnx
+      - onnxscript        # needed by the newer torch.onnx exporter
+      - onnxruntime       # CPU execution provider, includes the quantization tools
+      - openvino
+      - nncf
+      - huggingface_hub   # to download the fine-tuned checkpoint

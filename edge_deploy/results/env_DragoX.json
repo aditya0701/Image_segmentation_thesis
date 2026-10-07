@@ -1,0 +1,33 @@
+{
+  "hostname": "DragoX",
+  "os": "Windows 11 (10.0.26200)",
+  "machine": "AMD64",
+  "cpu": "Intel64 Family 6 Model 189 Stepping 1, GenuineIntel",
+  "python": "3.12.0",
+  "python_executable": "C:\\Users\\adima\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "devices": "[\n    {\n        \"DeviceName\":  \"Intel(R) AI Boost\",\n        \"DriverVersion\":  \"32.0.100.4724\",\n        \"DriverDate\":  \"\\/Date(1773878400000)\\/\"\n    },\n    {\n        \"DeviceName\":  \"Intel(R) Arc(TM) 140V GPU (16GB)\",\n        \"DriverVersion\":  \"32.0.101.7026\",\n        \"DriverDate\":  \"\\/Date(1755561600000)\\/\"\n    }\n]",
+  "nvidia_smi": "nvidia-smi not found on PATH",
+  "nvcc": "nvcc not found on PATH",
+  "packages": {
+    "torch": null,
+    "torchvision": null,
+    "micro_sam": null,
+    "segment-anything": null,
+    "torch_em": null,
+    "numpy": null,
+    "tifffile": null,
+    "scipy": null,
+    "scikit-image": null,
+    "pandas": null,
+    "onnx": null,
+    "onnxruntime": null,
+    "onnxruntime-gpu": null,
+    "onnxscript": null,
+    "tensorrt": null,
+    "pycuda": null,
+    "openvino": null,
+    "nncf": null
+  },
+  "torch": null,
+  "openvino_devices": null
+}

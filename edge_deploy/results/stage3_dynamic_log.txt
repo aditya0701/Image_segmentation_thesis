@@ -1,0 +1,8 @@
+Pre-processed model: sam_vitb_encoder_fp32_prep.onnx, 368 MB, 10 s
+sam_vitb_encoder_int8_dynamic.onnx: 109 MB (FP32: 368 MB), 7 s
+  tile 0: max|diff| 0.064, mean|diff| 0.0020, cosine 0.99969 (output range up to 0.85)
+  tile 1: max|diff| 0.034, mean|diff| 0.0019, cosine 0.99973 (output range up to 0.78)
+  tile 2: max|diff| 0.131, mean|diff| 0.0021, cosine 0.99962 (output range up to 0.85)
+  tile 3: max|diff| 0.041, mean|diff| 0.0022, cosine 0.99965 (output range up to 0.88)
+  tile 4: max|diff| 0.061, mean|diff| 0.0021, cosine 0.99966 (output range up to 0.79)
+  worst case: max|diff| 0.131, min cosine 0.99962

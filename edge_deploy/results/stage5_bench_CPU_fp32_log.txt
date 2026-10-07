@@ -1,0 +1,1 @@
+[CPU fp32] median 3840.0 ms (p10 3804.8, p90 3975.8), compile 0.9 s, peak mem 2001 MB
