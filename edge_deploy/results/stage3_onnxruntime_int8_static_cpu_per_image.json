@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "image": "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif",
+      "iou_threshold": 0.25,
+      "n_gt": 19,
+      "n_pred": 21,
+      "count_error": 0.1053,
+      "TP": 18,
+      "FP": 3,
+      "FN": 1,
+      "Precision": 0.8571,
+      "Recall": 0.9474,
+      "F1": 0.9,
+      "mean_iou_matched": 0.7547,
+      "PQ": 0.6792,
+      "mean_vol_error": 0.1941
+    },
+    {
+      "image": "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif",
+      "iou_threshold": 0.5,
+      "n_gt": 19,
+      "n_pred": 21,
+      "count_error": 0.1053,
+      "TP": 16,
+      "FP": 5,
+      "FN": 3,
+      "Precision": 0.7619,
+      "Recall": 0.8421,
+      "F1": 0.8,
+      "mean_iou_matched": 0.7994,
+      "PQ": 0.6395,
+      "mean_vol_error": 0.1456
+    },
+    {
+      "image": "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif",
+      "iou_threshold": 0.25,
+      "n_gt": 14,
+      "n_pred": 19,
+      "count_error": 0.3571,
+      "TP": 13,
+      "FP": 6,
+      "FN": 1,
+      "Precision": 0.6842,
+      "Recall": 0.9286,
+      "F1": 0.7879,
+      "mean_iou_matched": 0.7375,
+      "PQ": 0.5811,
+      "mean_vol_error": 0.1608
+    },
+    {
+      "image": "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif",
+      "iou_threshold": 0.5,
+      "n_gt": 14,
+      "n_pred": 19,
+      "count_error": 0.3571,
+      "TP": 13,
+      "FP": 6,
+      "FN": 1,
+      "Precision": 0.6842,
+      "Recall": 0.9286,
+      "F1": 0.7879,
+      "mean_iou_matched": 0.7375,
+      "PQ": 0.5811,
+      "mean_vol_error": 0.1608
+    }
+  ],
+  "seconds_per_volume": {
+    "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif": 1919.8160026995465,
+    "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif": 1956.1114453999326
+  }
+}

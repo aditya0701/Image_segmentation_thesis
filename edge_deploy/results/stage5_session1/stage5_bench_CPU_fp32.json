@@ -1,0 +1,13 @@
+{
+  "median_ms": 3840.0,
+  "p10_ms": 3804.8,
+  "p90_ms": 3975.8,
+  "min_ms": 3778.1,
+  "max_ms": 4155.5,
+  "runs": 30,
+  "warmup": 10,
+  "compile_s": 0.9,
+  "peak_mem_mb": 2001,
+  "compute_precision": "f32",
+  "power": "AC, Best performance"
+}

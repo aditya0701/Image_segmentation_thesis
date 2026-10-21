@@ -1,0 +1,1 @@
+[GPU int8_nncf_direct] median 591.9 ms (p10 581.0, p90 668.9), compile 1.8 s, peak mem 9376 MB

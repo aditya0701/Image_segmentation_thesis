@@ -1,0 +1,20 @@
+{
+  "Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif": {
+    "calls": 280,
+    "median_ms": 627.0,
+    "p10_ms": 619.4,
+    "p90_ms": 656.9,
+    "encoder_total_s": 179,
+    "volume_total_s": 1197,
+    "encoder_share": 0.149
+  },
+  "PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif": {
+    "calls": 304,
+    "median_ms": 620.6,
+    "p10_ms": 612.1,
+    "p90_ms": 635.5,
+    "encoder_total_s": 189,
+    "volume_total_s": 1258,
+    "encoder_share": 0.151
+  }
+}

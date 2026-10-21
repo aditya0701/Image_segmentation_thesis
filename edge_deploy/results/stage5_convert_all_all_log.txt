@@ -1,0 +1,2 @@
+sam_vitb_encoder_fp32.xml: 368 MB
+sam_vitb_encoder_fp16.xml: 184 MB

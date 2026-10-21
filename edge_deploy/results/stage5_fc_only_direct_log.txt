@@ -1,0 +1,31 @@
+[direct] excluding 24 attention MatMuls from quantization
+Statistics collection -------------------------- 100% 57/57 • 0:09:21 • 0:00:00
+Applying Smooth Quant -------------------------- 100% 48/48 • 0:00:01 • 0:00:00
+INFO:nncf:24 ignored nodes were found by names in the NNCFGraph
+INFO:nncf:Not adding activation input quantizer for operation: 361 __module.blocks.0.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 362 __module.blocks.0.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 478 __module.blocks.1.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 479 __module.blocks.1.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 379 __module.blocks.2.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 380 __module.blocks.2.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 712 __module.blocks.3.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 713 __module.blocks.3.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 828 __module.blocks.4.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 829 __module.blocks.4.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 728 __module.blocks.5.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 729 __module.blocks.5.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 1059 __module.blocks.6.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 1060 __module.blocks.6.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 1164 __module.blocks.7.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 1165 __module.blocks.7.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 1075 __module.blocks.8.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 1076 __module.blocks.8.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 1340 __module.blocks.9.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 1341 __module.blocks.9.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 1390 __module.blocks.10.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 1391 __module.blocks.10.attn/aten::matmul/MatMul_1
+INFO:nncf:Not adding activation input quantizer for operation: 1356 __module.blocks.11.attn/aten::matmul/MatMul
+INFO:nncf:Not adding activation input quantizer for operation: 1357 __module.blocks.11.attn/aten::matmul/MatMul_1
+Statistics collection -------------------------- 100% 57/57 • 0:12:19 • 0:00:00
+Applying Fast Bias correction ------------------ 100% 49/49 • 0:00:23 • 0:00:00
+[direct] GPU compile: OK  COMPILED in 15.4 s

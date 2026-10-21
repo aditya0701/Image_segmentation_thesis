@@ -1,0 +1,1 @@
+[GPU int8_qdq] median 680.2 ms (p10 637.2, p90 711.9), compile 7.1 s, peak mem 3003 MB

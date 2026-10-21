@@ -1,0 +1,6 @@
+  tile 0: max|diff| 0.0424, mean|diff| 0.00143, cosine 0.99983
+  tile 1: max|diff| 0.0303, mean|diff| 0.00133, cosine 0.99987
+  tile 2: max|diff| 0.0442, mean|diff| 0.00133, cosine 0.99986
+  tile 3: max|diff| 0.0504, mean|diff| 0.00131, cosine 0.99987
+  tile 4: max|diff| 0.031, mean|diff| 0.00154, cosine 0.99981
+[GPU int8_fc_direct] compile 4.4 s, worst cosine 0.99981

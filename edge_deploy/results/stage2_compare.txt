@@ -1,0 +1,38 @@
+                        dynamo        legacy
+file_size_mb               368           359
+opset                       20            17
+n_nodes                    564          3219
+external_data             True         False
+max_abs_diff          6.35e-06      6.35e-06
+min_cosine          1.00000000    1.00000000
+
+Operation counts (op: dynamo / legacy):
+  Add                    101 / 153
+  Cast                   0 / 264
+  Concat                 0 / 139
+  Constant               0 / 1177
+  ConstantOfShape        0 / 8
+  Conv                   3 / 3
+  Div                    2 / 78
+  Einsum                 24 / 24
+  Erf                    0 / 12
+  Gather                 0 / 128
+  Gelu                   12 / 0
+  LayerNormalization     24 / 24
+  MatMul                 72 / 72
+  Mod                    0 / 32
+  Mul                    14 / 142
+  Pad                    8 / 8
+  Pow                    2 / 2
+  Range                  0 / 24
+  ReduceMean             4 / 4
+  Reshape                116 / 132
+  Shape                  0 / 104
+  Slice                  52 / 24
+  Softmax                12 / 12
+  Split                  0 / 12
+  Sqrt                   2 / 2
+  Squeeze                36 / 36
+  Sub                    2 / 74
+  Transpose              54 / 62
+  Unsqueeze              24 / 467

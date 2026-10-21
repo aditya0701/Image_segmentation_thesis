@@ -1,0 +1,6 @@
+  tile 0: max|diff| 0.41, mean|diff| 0.0112, cosine 0.98905
+  tile 1: max|diff| 0.204, mean|diff| 0.00828, cosine 0.99456
+  tile 2: max|diff| 0.175, mean|diff| 0.00742, cosine 0.99563
+  tile 3: max|diff| 0.176, mean|diff| 0.00731, cosine 0.99585
+  tile 4: max|diff| 0.261, mean|diff| 0.00812, cosine 0.99441
+[CPU int8_qdq] compile 1.9 s, worst cosine 0.98905

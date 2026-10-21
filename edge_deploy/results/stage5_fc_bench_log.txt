@@ -1,0 +1,5 @@
+﻿start 2026-10-07T14:08:23
+[GPU fp16] median 240.9 ms (p10 238.8, p90 251.5), compile 6.0 s, peak mem 1752 MB
+[GPU int8_fc_direct] median 465.0 ms (p10 399.2, p90 491.3), compile 7.4 s, peak mem 1704 MB
+[GPU int8_weights] median 370.8 ms (p10 351.0, p90 436.0), compile 5.4 s, peak mem 1657 MB
+end 2026-10-07T14:16:01

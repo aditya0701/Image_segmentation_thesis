@@ -1,0 +1,1 @@
+[GPU fp32] median 623.7 ms (p10 619.2, p90 731.9), compile 3.3 s, peak mem 2989 MB

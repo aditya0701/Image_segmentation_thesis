@@ -1,0 +1,1 @@
+[CPU int8_nncf] median 1889.0 ms (p10 1863.9, p90 1932.8), compile 1.0 s, peak mem 1493 MB

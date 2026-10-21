@@ -1,0 +1,8 @@
+D:\my_envs\sam-edge\Lib\site-packages\kornia\feature\lightglue.py:44: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  @torch.cuda.amp.custom_fwd(cast_inputs=torch.float32)
+  tile 0: max|diff| 0.392, mean|diff| 0.0137, cosine 0.98415 (output range up to 0.85)
+  tile 1: max|diff| 0.261, mean|diff| 0.0095, cosine 0.99285 (output range up to 0.78)
+  tile 2: max|diff| 0.330, mean|diff| 0.0093, cosine 0.99268 (output range up to 0.85)
+  tile 3: max|diff| 0.236, mean|diff| 0.0090, cosine 0.99366 (output range up to 0.88)
+  tile 4: max|diff| 0.356, mean|diff| 0.0100, cosine 0.99160 (output range up to 0.79)
+  worst case: max|diff| 0.392, min cosine 0.98415

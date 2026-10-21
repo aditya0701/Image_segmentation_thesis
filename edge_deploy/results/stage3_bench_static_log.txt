@@ -1,0 +1,2 @@
+[static] latency: {'median_ms': 3062.8, 'p10_ms': 3012.8, 'p90_ms': 3152.8, 'min_ms': 2992.9, 'max_ms': 3275.0, 'runs': 30, 'warmup': 10}
+Peak process memory: 4964 MB, power: AC, Best performance

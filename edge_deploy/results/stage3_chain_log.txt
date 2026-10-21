@@ -1,0 +1,22 @@
+=== 19:44:39 START quantize --variant static
+=== 19:51:50 END quantize --variant static exit=0
+=== 19:51:50 START check --variant static
+=== 19:52:58 END check --variant static exit=0
+=== 19:52:58 START bench --variant dynamic
+=== 19:54:32 END bench --variant dynamic exit=0
+=== 19:54:32 START bench --variant static
+=== 19:56:42 END bench --variant static exit=0
+=== 19:56:42 START eval --variant dynamic
+=== 20:50:48 END eval --variant dynamic exit=0
+=== 20:50:48 START eval --variant static
+=== 21:56:03 END eval --variant static exit=0
+=== ALL DONE
+=== 21:56:29 START quantize --variant static_matmul
+=== 22:01:08 END quantize --variant static_matmul exit=0
+=== 22:01:08 START check --variant static_matmul
+=== 22:02:07 END check --variant static_matmul exit=0
+=== 22:02:07 START bench --variant static_matmul
+=== 22:03:49 END bench --variant static_matmul exit=0
+=== 22:03:49 START eval --variant static_matmul
+=== 23:02:30 END eval --variant static_matmul exit=0
+=== ALL DONE 2

@@ -1,0 +1,5 @@
+Statistics collection -------------------------- 100% 57/57 • 0:04:44 • 0:00:00
+Applying Smooth Quant -------------------------- 100% 48/48 • 0:00:00 • 0:00:00
+Statistics collection -------------------------- 100% 57/57 • 0:05:24 • 0:00:00
+Applying Fast Bias correction ------------------ 100% 49/49 • 0:00:08 • 0:00:00
+sam_vitb_encoder_int8_nncf.xml: 110 MB, 631 s, 57 calibration tiles

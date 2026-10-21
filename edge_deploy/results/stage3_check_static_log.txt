@@ -1,0 +1,6 @@
+  tile 0: max|diff| 0.347, mean|diff| 0.0117, cosine 0.98872 (output range up to 0.85)
+  tile 1: max|diff| 0.208, mean|diff| 0.0093, cosine 0.99378 (output range up to 0.78)
+  tile 2: max|diff| 0.335, mean|diff| 0.0086, cosine 0.99450 (output range up to 0.85)
+  tile 3: max|diff| 0.246, mean|diff| 0.0087, cosine 0.99456 (output range up to 0.88)
+  tile 4: max|diff| 0.282, mean|diff| 0.0098, cosine 0.99270 (output range up to 0.79)
+  worst case: max|diff| 0.347, min cosine 0.98872

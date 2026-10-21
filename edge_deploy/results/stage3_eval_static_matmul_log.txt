@@ -1,0 +1,4 @@
+  Brain1_1340_Cont_AiryscanSR_Fly1_CalyxL_1100.tif: 21 objects, 1672 s
+  PN_KC_488_568_Brain2_CalyxR_LSMPlus_16bit.ome_deconv.tif: 21 objects, 1809 s
+IoU >= 0.25: {'n_gt': 33, 'TP': 32, 'FP': 10, 'FN': 1, 'recall': 0.9697, 'mIoU': 0.7558, 'recall_per_image_mean': 0.9737, 'mIoU_per_image_mean': 0.7547}
+IoU >= 0.5: {'n_gt': 33, 'TP': 31, 'FP': 11, 'FN': 2, 'recall': 0.9394, 'mIoU': 0.7685, 'recall_per_image_mean': 0.9474, 'mIoU_per_image_mean': 0.7665}

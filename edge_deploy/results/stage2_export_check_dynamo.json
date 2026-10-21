@@ -1,0 +1,62 @@
+{
+  "exporter": "dynamo",
+  "opset": 20,
+  "n_nodes": 564,
+  "op_counts": {
+    "Add": 101,
+    "Conv": 3,
+    "Div": 2,
+    "Einsum": 24,
+    "Gelu": 12,
+    "LayerNormalization": 24,
+    "MatMul": 72,
+    "Mul": 14,
+    "Pad": 8,
+    "Pow": 2,
+    "ReduceMean": 4,
+    "Reshape": 116,
+    "Slice": 52,
+    "Softmax": 12,
+    "Sqrt": 2,
+    "Squeeze": 36,
+    "Sub": 2,
+    "Transpose": 54,
+    "Unsqueeze": 24
+  },
+  "file_size_mb": 368,
+  "external_data": true,
+  "max_abs_diff": 6.3478946685791016e-06,
+  "min_cosine": 0.9999999999982541,
+  "tiles": [
+    {
+      "max_abs_diff": 6.3478946685791016e-06,
+      "mean_abs_diff": 1.3527597737122976e-07,
+      "ref_abs_max": 0.8547563552856445,
+      "cosine": 0.9999999999982541
+    },
+    {
+      "max_abs_diff": 2.5033950805664062e-06,
+      "mean_abs_diff": 7.147097930149116e-08,
+      "ref_abs_max": 0.7802920937538147,
+      "cosine": 0.9999999999995022
+    },
+    {
+      "max_abs_diff": 5.479902029037476e-06,
+      "mean_abs_diff": 8.188147419471714e-08,
+      "ref_abs_max": 0.8527352213859558,
+      "cosine": 0.9999999999992728
+    },
+    {
+      "max_abs_diff": 2.985820174217224e-06,
+      "mean_abs_diff": 8.845710554664099e-08,
+      "ref_abs_max": 0.8781515955924988,
+      "cosine": 0.9999999999992145
+    },
+    {
+      "max_abs_diff": 5.297362804412842e-06,
+      "mean_abs_diff": 1.1162064578532083e-07,
+      "ref_abs_max": 0.7880471348762512,
+      "cosine": 0.9999999999987462
+    }
+  ]
+}

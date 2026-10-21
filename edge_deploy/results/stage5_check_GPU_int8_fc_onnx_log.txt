@@ -1,0 +1,1 @@
+[GPU int8_fc_onnx] FAILED in compile: RuntimeError. Saved to stage5_failure_GPU_int8_fc_onnx_compile.txt

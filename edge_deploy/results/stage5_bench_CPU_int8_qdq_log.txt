@@ -1,0 +1,1 @@
+[CPU int8_qdq] median 2498.3 ms (p10 2470.6, p90 2558.0), compile 1.6 s, peak mem 2460 MB
