@@ -72,6 +72,14 @@ The final, selected model checkpoints (i.e. the ones reported in the thesis, not
 
 🤗 **[aditya0701/Drosophilla_melanogaster_Bouton_3d_segmentation](https://huggingface.co/aditya0701/Drosophilla_melanogaster_Bouton_3d_segmentation)**
 
+## Edge deployment
+
+The fine-tuned MicroSAM image encoder was also deployed with ONNX, ONNX Runtime, OpenVINO and TensorRT 11, on a laptop CPU, integrated GPU and NPU and on a Colab T4. Every number is measured, with accuracy checked against the FP32 model.
+
+- On the laptop's Intel Arc GPU, FP16 runs the encoder **23x faster** than the PyTorch CPU baseline (5.6 s to 241 ms), with identical detections.
+- INT8 on CPU gives **2.7x** at a third of the model size. INT8 was not faster than FP16 on the GPUs tested.
+- Read **[edge_deploy/WRITEUP.md](edge_deploy/WRITEUP.md)** for results and findings, **[edge_deploy/CLAIMS.md](edge_deploy/CLAIMS.md)** for what is and is not claimed, and **[edge_deploy/LEARNING_NOTES.md](edge_deploy/LEARNING_NOTES.md)** for the step-by-step study notes.
+
 ## Related resources
 
 For an end-user-facing tool built on top of these models — letting users run segmentation and manually delete unwanted/false-positive boutons — see:
