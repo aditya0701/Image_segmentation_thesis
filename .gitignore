@@ -45,3 +45,5 @@ rawat.code-workspace
 
 weights/
 *.pth
+# Claude Code working notes (kept locally)
+edge_deploy/CLAUDE.md
